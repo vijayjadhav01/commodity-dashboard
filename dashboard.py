@@ -294,8 +294,14 @@ st.markdown('''
 </div>
 ''', unsafe_allow_html=True)
 
-col1, col2, col3 = st.columns([2, 1, 2])
+col1, col2, col3 = st.columns([3, 2, 3])
 with col2:
     if st.button("Refresh Data", key="refresh_data"):
         load_data.clear()
         st.rerun()
+
+st.markdown('''
+<div style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem;">
+    <p>If today's data is missing, try refreshing</p>
+</div>
+''', unsafe_allow_html=True)
