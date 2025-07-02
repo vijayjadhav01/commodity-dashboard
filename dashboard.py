@@ -388,7 +388,7 @@ if data is not None:
             
             # Update layout
             fig.update_layout(
-                xaxis_title="Date", yaxis_title="Retail Price (₹/kg)", hovermode='x unified',
+                xaxis_title="Date", yaxis_title="Retail Price (Rs/kg)", hovermode='x unified',
                 plot_bgcolor='white', paper_bgcolor='white', height=500,
                 font=dict(family="Arial, sans-serif", size=12, color='#333333'),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1,
