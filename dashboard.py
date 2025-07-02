@@ -136,7 +136,7 @@ st.markdown('''
 </div>
 ''', unsafe_allow_html=True)
 
-@st.cache_data
+@st.cache_data(ttl=300)  # Cache for 5 minutes (300 seconds)
 def load_data():
     try:
         sheet_id = "18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8"
