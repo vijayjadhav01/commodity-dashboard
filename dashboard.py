@@ -16,10 +16,61 @@ st.markdown("""
         border: 2px solid #e1e5e9 !important;
         border-radius: 5px !important;
         background-color: white !important;
+        color: #333 !important;
     }
     
     .stSelectbox > div > div:focus-within, .stMultiSelect > div > div:focus-within {
         border-color: #0070CC !important;
+    }
+    
+    /* Fix dropdown text visibility */
+    .stMultiSelect div[data-baseweb="select"] {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    .stMultiSelect div[data-baseweb="select"] > div {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    /* Dropdown menu styling */
+    .stMultiSelect ul, .stSelectbox ul {
+        background-color: white !important;
+    }
+    
+    .stMultiSelect li, .stSelectbox li {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    .stMultiSelect li:hover, .stSelectbox li:hover {
+        background-color: #f0f0f0 !important;
+        color: #333 !important;
+    }
+    
+    /* Force all popover content to have dark text */
+    div[data-baseweb="popover"] {
+        background-color: white !important;
+    }
+    
+    div[data-baseweb="popover"] div {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    div[role="listbox"] {
+        background-color: white !important;
+    }
+    
+    div[role="option"] {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    div[role="option"]:hover {
+        background-color: #f0f0f0 !important;
+        color: #333 !important;
     }
     
     .stButton > button {
