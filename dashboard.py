@@ -342,7 +342,7 @@ if data is not None:
                 fig.add_trace(go.Scatter(
                     x=commodity_data['Date'], y=commodity_data['Price'],
                     mode='lines', name=commodity,
-                    line=dict(color=colors[i % len(colors)], width=1.5), marker=dict(size=3),
+                    line=dict(color=colors[i % len(colors)], width=1.5),
                     hovertemplate=f'<b>{commodity}</b><br>Date: %{{x|%d %b %Y}}<br>Retail Price: ₹%{{y:.2f}}/kg<br><extra></extra>'
                 ))
             
@@ -356,24 +356,23 @@ if data is not None:
                 xaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)', 
                           showline=True, linecolor='#0070CC',
                           title_font=dict(color='#333333'), tickfont=dict(color='#333333'),
-                          fixedrange=True),
+                          fixedrange=False),
                 yaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)', 
                           showline=True, linecolor='#0070CC',
                           title_font=dict(color='#333333'), tickfont=dict(color='#333333'),
-                          fixedrange=True),
-                dragmode=False
+                          fixedrange=False),
+                dragmode='zoom'
             )
             
             config = {
                 'displayModeBar': True,
                 'modeBarButtonsToRemove': [
-                    'zoom2d', 'pan2d', 'select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d',
-                    'autoScale2d', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian',
+                    'select2d', 'lasso2d', 'hoverClosestCartesian', 'hoverCompareCartesian',
                     'toggleSpikelines', 'toggleHover'
                 ],
                 'displaylogo': False,
-                'scrollZoom': False,
-                'doubleClick': False,
+                'scrollZoom': True,
+                'doubleClick': 'reset',
                 'toImageButtonOptions': {
                     'format': 'png',
                     'filename': f'commodity_prices_{selected_group}',
