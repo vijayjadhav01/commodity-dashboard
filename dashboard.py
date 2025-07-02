@@ -258,8 +258,6 @@ st.markdown("""
 
 st.markdown('''
 <div style="text-align: center; margin-bottom: 2rem; margin-top: -2rem;">
-    <img src="https://raw.githubusercontent.com/vijayjadhav01/commodity-dashboard/main/Logo.png" 
-         style="height: 50px; margin-bottom: 1rem;" alt="IndiaSpend Logo">
     <h1 style="color: #0070CC; font-size: 2.5rem; font-weight: 700; margin: 0; border-bottom: 3px solid #0070CC; padding-bottom: 1rem;">
         Commodity Price Dashboard
     </h1>
@@ -286,7 +284,6 @@ if data is not None:
     if 'selected_commodities' not in st.session_state:
         st.session_state.selected_commodities = []
     
-    # filter text was here
     col1, col2, col3, col4 = st.columns([1.5, 3, 1, 1])
     
     with col1:
@@ -331,7 +328,7 @@ if data is not None:
         
         if not filtered_data.empty:
             st.markdown(f'''
-            <h3 style="color: #0070CC; margin-top: 0; text-align: center; margin-bottom: 1rem;">Retail Price Trends - {selected_group}</h3>
+            <h3 style="color: #0070CC; margin-top: 0; text-align: center; margin-bottom: 1rem; font-size: 1.5rem;">Retail Price Trends - {selected_group}</h3>
             ''', unsafe_allow_html=True)
             
             fig = go.Figure()
@@ -406,3 +403,10 @@ else:
         <p><strong>To update data:</strong> Simply edit the Google Sheet and refresh this dashboard</p>
     </div>
     ''', unsafe_allow_html=True)
+
+st.markdown('''
+<div style="text-align: center; margin-top: 3rem; padding: 2rem; border-top: 1px solid #e1e5e9;">
+    <img src="https://raw.githubusercontent.com/vijayjadhav01/commodity-dashboard/main/Logo.png" 
+         style="height: 40px;" alt="IndiaSpend Logo">
+</div>
+''', unsafe_allow_html=True)
