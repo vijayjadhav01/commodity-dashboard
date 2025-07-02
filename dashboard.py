@@ -159,44 +159,37 @@ if data is not None:
     col1, col2, col3, col4, col5, col6 = st.columns([1.5, 3, 1.2, 1.2, 1, 1])
     
     with col1:
-        st.markdown('<p class="filter-label">Select Group</p>', unsafe_allow_html=True)
         selected_group = st.selectbox("Group", [''] + sorted(data['Group'].unique()), 
                                     key="group_select", 
                                     index=([''] + sorted(data['Group'].unique())).index(st.session_state.selected_group) if st.session_state.selected_group in ([''] + sorted(data['Group'].unique())) else 0,
-                                    label_visibility="collapsed")
+                                    placeholder="Select Group")
         st.session_state.selected_group = selected_group
     
     with col2:
-        st.markdown('<p class="filter-label">Select Commodities</p>', unsafe_allow_html=True)
         if selected_group:
             commodities = sorted(data[data['Group'] == selected_group]['Commodity'].unique())
             valid_commodities = [comm for comm in st.session_state.selected_commodities if comm in commodities]
             selected_commodities = st.multiselect("Commodities", commodities, 
                                                 default=valid_commodities,
                                                 key="commodity_select",
-                                                label_visibility="collapsed")
+                                                placeholder="Select Commodities")
             st.session_state.selected_commodities = selected_commodities
         else:
             selected_commodities = []
-            st.multiselect("Commodities", [], placeholder="Please select a group first", 
-                         key="commodity_select_empty",
-                         label_visibility="collapsed")
+            st.multiselect("Commodities", [], placeholder="Select Commodities", 
+                         key="commodity_select_empty")
             st.session_state.selected_commodities = []
     
     with col3:
-        st.markdown('<p class="filter-label">From Date</p>', unsafe_allow_html=True)
-        from_date = st.date_input("From Date", value=None, key="from_date", label_visibility="collapsed")
+        from_date = st.date_input("From Date", value=None, key="from_date")
     
     with col4:
-        st.markdown('<p class="filter-label">To Date</p>', unsafe_allow_html=True)
-        to_date = st.date_input("To Date", value=None, key="to_date", label_visibility="collapsed")
+        to_date = st.date_input("To Date", value=None, key="to_date")
     
     with col5:
-        st.markdown('<p class="filter-label">&nbsp;</p>', unsafe_allow_html=True)
         submit_button = st.button("Search")
     
     with col6:
-        st.markdown('<p class="filter-label">&nbsp;</p>', unsafe_allow_html=True)
         clear_button = st.button("Clear", key="clear_btn")
         if clear_button:
             st.session_state.selected_group = ''
