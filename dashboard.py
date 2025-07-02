@@ -22,7 +22,7 @@ st.markdown("""
     /* Main content area */
     .main .block-container {
         background-color: #ffffff !important;
-        padding-top: 2rem !important;
+        padding-top: 0.5rem !important;
     }
     
     /* Sidebar (if any) */
