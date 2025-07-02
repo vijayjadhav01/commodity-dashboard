@@ -324,7 +324,7 @@ if data is not None:
     
     # Filters
     st.markdown("##### 🔍 Filters")
-    col1, col2, col3, col4 = st.columns([2, 2.5, 1, 1])
+    col1, col2, col3, col4 = st.columns([1.5, 3, 1, 1])
     
     with col1:
         st.markdown('<p class="filter-label">Select Group</p>', unsafe_allow_html=True)
@@ -353,11 +353,11 @@ if data is not None:
             st.session_state.selected_commodities = []
     
     with col3:
-        st.markdown('<p class="filter-label">Apply Filters</p>', unsafe_allow_html=True)
+        st.markdown('<p class="filter-label">&nbsp;</p>', unsafe_allow_html=True)
         submit_button = st.button("Search")
     
     with col4:
-        st.markdown('<p class="filter-label">Reset</p>', unsafe_allow_html=True)
+        st.markdown('<p class="filter-label">&nbsp;</p>', unsafe_allow_html=True)
         clear_button = st.button("Clear", key="clear_btn")
         if clear_button:
             st.session_state.selected_group = ''
