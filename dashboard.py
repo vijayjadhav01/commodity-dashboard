@@ -253,6 +253,20 @@ st.markdown("""
     .stMultiSelect label {
         color: #0070CC !important;
     }
+    
+    .stDateInput > div > div {
+        border: 2px solid #e1e5e9 !important;
+        border-radius: 5px !important;
+        background-color: white !important;
+    }
+    
+    .stDateInput > div > div:focus-within {
+        border-color: #0070CC !important;
+    }
+    
+    .stDateInput label {
+        color: #0070CC !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -286,8 +300,7 @@ if data is not None:
     if 'selected_commodities' not in st.session_state:
         st.session_state.selected_commodities = []
     
-    # filter text was here
-    col1, col2, col3, col4 = st.columns([1.5, 3, 1, 1])
+    col1, col2, col3, col4, col5, col6 = st.columns([1.5, 3, 1.2, 1.2, 1, 1])
     
     with col1:
         st.markdown('<p class="filter-label">Select Group</p>', unsafe_allow_html=True)
@@ -315,10 +328,18 @@ if data is not None:
             st.session_state.selected_commodities = []
     
     with col3:
+        st.markdown('<p class="filter-label">From Date</p>', unsafe_allow_html=True)
+        from_date = st.date_input("From Date", value=None, key="from_date", label_visibility="collapsed")
+    
+    with col4:
+        st.markdown('<p class="filter-label">To Date</p>', unsafe_allow_html=True)
+        to_date = st.date_input("To Date", value=None, key="to_date", label_visibility="collapsed")
+    
+    with col5:
         st.markdown('<p class="filter-label">&nbsp;</p>', unsafe_allow_html=True)
         submit_button = st.button("Search")
     
-    with col4:
+    with col6:
         st.markdown('<p class="filter-label">&nbsp;</p>', unsafe_allow_html=True)
         clear_button = st.button("Clear", key="clear_btn")
         if clear_button:
@@ -329,9 +350,20 @@ if data is not None:
     if submit_button and selected_group and selected_commodities:
         filtered_data = data[(data['Group'] == selected_group) & (data['Commodity'].isin(selected_commodities))]
         
+        if from_date and to_date:
+            from_date_pd = pd.to_datetime(from_date)
+            to_date_pd = pd.to_datetime(to_date)
+            filtered_data = filtered_data[(filtered_data['Date'] >= from_date_pd) & (filtered_data['Date'] <= to_date_pd)]
+        elif from_date:
+            from_date_pd = pd.to_datetime(from_date)
+            filtered_data = filtered_data[filtered_data['Date'] >= from_date_pd]
+        elif to_date:
+            to_date_pd = pd.to_datetime(to_date)
+            filtered_data = filtered_data[filtered_data['Date'] <= to_date_pd]
+        
         if not filtered_data.empty:
             st.markdown(f'''
-            <h3 style="color: #0070CC; margin-top: 0; text-align: center; margin-bottom: 2rem;">📈 Retail Price Trends - {selected_group}</h3>
+            <h3 style="color: #0070CC; margin-top: 0; text-align: center; margin-bottom: 1rem; font-size: 1.5rem;">Retail Price Trends - {selected_group}</h3>
             ''', unsafe_allow_html=True)
             
             fig = go.Figure()
