@@ -289,8 +289,13 @@ else:
 
 # Refresh button at the bottom of the page
 st.markdown("---")
-col1, col2, col3 = st.columns([2, 1, 2])
+st.markdown('''
+<div style="text-align: center; margin: 2rem 0;">
+</div>
+''', unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns([3, 2, 3])
 with col2:
-    if st.button("🔄 Refresh Data", key="refresh_data", help="Click to reload the latest data"):
+    if st.button("🔄 Refresh Data", key="refresh_data", help="Click to reload the latest data", use_container_width=True):
         load_data.clear()
         st.rerun()
