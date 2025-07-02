@@ -342,7 +342,7 @@ if data is not None:
                 fig.add_trace(go.Scatter(
                     x=commodity_data['Date'], y=commodity_data['Price'],
                     mode='lines+markers', name=commodity,
-                    line=dict(color=colors[i % len(colors)], width=3), marker=dict(size=4),
+                    line=dict(color=colors[i % len(colors)], width=1.5), marker=dict(size=3),
                     hovertemplate=f'<b>{commodity}</b><br>Date: %{{x|%d %b %Y}}<br>Retail Price: ₹%{{y:.2f}}/kg<br><extra></extra>'
                 ))
             
