@@ -209,12 +209,38 @@ st.markdown("""
         color: white !important;
     }
     
+    /* Clear button styling */
+    .clear-button > button {
+        background-color: #6c757d !important;
+        color: white !important;
+        border: none;
+        border-radius: 5px;
+        padding: 0.5rem 2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        width: 100%;
+    }
+    
+    .clear-button > button:hover {
+        background-color: #5a6268 !important;
+        color: white !important;
+    }
+    
     /* Additional button text override */
     .stButton > button * {
         color: white !important;
     }
     
     .stButton > button:hover * {
+        color: white !important;
+    }
+    
+    .clear-button > button * {
+        color: white !important;
+    }
+    
+    .clear-button > button:hover * {
         color: white !important;
     }
     
@@ -290,26 +316,53 @@ def load_data():
 data = load_data()
 
 if data is not None:
+    # Initialize session state for filters
+    if 'selected_group' not in st.session_state:
+        st.session_state.selected_group = ''
+    if 'selected_commodities' not in st.session_state:
+        st.session_state.selected_commodities = []
+    
     # Filters
     st.markdown("##### 🔍 Filters")
-    col1, col2, col3 = st.columns([2, 3, 1])
+    col1, col2, col3, col4 = st.columns([2, 2.5, 1, 1])
     
     with col1:
         st.markdown('<p class="filter-label">Select Group</p>', unsafe_allow_html=True)
-        selected_group = st.selectbox("Group", [''] + sorted(data['Group'].unique()), label_visibility="collapsed")
+        selected_group = st.selectbox("Group", [''] + sorted(data['Group'].unique()), 
+                                    key="group_select", 
+                                    index=([''] + sorted(data['Group'].unique())).index(st.session_state.selected_group) if st.session_state.selected_group in ([''] + sorted(data['Group'].unique())) else 0,
+                                    label_visibility="collapsed")
+        st.session_state.selected_group = selected_group
     
     with col2:
         st.markdown('<p class="filter-label">Select Commodities</p>', unsafe_allow_html=True)
         if selected_group:
             commodities = sorted(data[data['Group'] == selected_group]['Commodity'].unique())
-            selected_commodities = st.multiselect("Commodities", commodities, label_visibility="collapsed")
+            # Filter session state commodities to only include those available for current group
+            valid_commodities = [comm for comm in st.session_state.selected_commodities if comm in commodities]
+            selected_commodities = st.multiselect("Commodities", commodities, 
+                                                default=valid_commodities,
+                                                key="commodity_select",
+                                                label_visibility="collapsed")
+            st.session_state.selected_commodities = selected_commodities
         else:
             selected_commodities = []
-            st.multiselect("Commodities", [], placeholder="Please select a group first", label_visibility="collapsed")
+            st.multiselect("Commodities", [], placeholder="Please select a group first", 
+                         key="commodity_select_empty",
+                         label_visibility="collapsed")
+            st.session_state.selected_commodities = []
     
     with col3:
         st.markdown('<p class="filter-label">Apply Filters</p>', unsafe_allow_html=True)
         submit_button = st.button("Search")
+    
+    with col4:
+        st.markdown('<p class="filter-label">Reset</p>', unsafe_allow_html=True)
+        clear_button = st.button("Clear", key="clear_btn")
+        if clear_button:
+            st.session_state.selected_group = ''
+            st.session_state.selected_commodities = []
+            st.rerun()
     
     # Show results
     if submit_button and selected_group and selected_commodities:
