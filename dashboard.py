@@ -132,11 +132,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Title with logo
+# Logo and Title
 st.markdown('''
-<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
-    <img src="https://indiaspend.com/h-upload/2023/03/15/1600x960_469844-indiaspend-logo.png" 
-         style="height: 60px; margin-right: 20px;" alt="IndiaSpend Logo">
+<div style="text-align: center; margin-bottom: 2rem;">
+    <img src="https://raw.githubusercontent.com/yourusername/your-repo-name/main/Logo.png" 
+         style="height: 80px; margin-bottom: 1rem;" alt="IndiaSpend Logo">
     <h1 style="color: #0070CC; font-size: 2.5rem; font-weight: 700; margin: 0; border-bottom: 3px solid #0070CC; padding-bottom: 1rem;">
         📊 Commodity Price Dashboard
     </h1>
