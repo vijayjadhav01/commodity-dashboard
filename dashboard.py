@@ -396,10 +396,13 @@ if data is not None:
                            font=dict(color='#333333')),
                 xaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)', 
                           showline=True, linecolor='#0070CC',
-                          title_font=dict(color='#333333'), tickfont=dict(color='#333333')),
+                          title_font=dict(color='#333333'), tickfont=dict(color='#333333'),
+                          fixedrange=True),
                 yaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)', 
                           showline=True, linecolor='#0070CC',
-                          title_font=dict(color='#333333'), tickfont=dict(color='#333333'))
+                          title_font=dict(color='#333333'), tickfont=dict(color='#333333'),
+                          fixedrange=True),
+                dragmode=False
             )
             
             # Configure plotly chart with minimal toolbar
@@ -411,6 +414,8 @@ if data is not None:
                     'toggleSpikelines', 'toggleHover'
                 ],
                 'displaylogo': False,
+                'scrollZoom': False,
+                'doubleClick': False,
                 'toImageButtonOptions': {
                     'format': 'png',
                     'filename': f'commodity_prices_{selected_group}',
