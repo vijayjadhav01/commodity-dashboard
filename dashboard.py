@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from datetime import datetime
+from datetime import datetime, timedelta
+import numpy as np
 
 # Page configuration
 st.set_page_config(
@@ -11,251 +12,287 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS for styling
+# Enhanced Custom CSS with modern design
 st.markdown("""
 <style>
-    /* Force light theme */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    /* Global styling */
     .stApp {
-        background-color: #ffffff !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family: 'Inter', sans-serif;
     }
     
-    /* Main content area */
     .main .block-container {
-        background-color: #ffffff !important;
-        padding-top: 1 rem !important;
+        background-color: transparent;
+        padding-top: 2rem;
+        max-width: 1200px;
     }
     
-    /* Sidebar (if any) */
-    .css-1d391kg {
-        background-color: #f8f9fa !important;
-    }
-    
-    /* Main theme color */
-    :root {
-        --primary-color: #0070CC;
-    }
-    
-    /* Hide Streamlit default elements */
+    /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    .stDeployButton {visibility: hidden;}
     
-    /* Title styling */
-    .main-title {
-        color: #0070CC;
-        font-size: 2.5rem;
-        font-weight: 700;
-        text-align: center;
+    /* Header Section */
+    .header-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
         margin-bottom: 2rem;
-        border-bottom: 3px solid #0070CC;
-        padding-bottom: 1rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-align: center;
+    }
+    
+    .main-title {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 3rem;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: -0.02em;
+    }
+    
+    .subtitle {
+        color: #6b7280;
+        font-size: 1.2rem;
+        margin-top: 0.5rem;
+        font-weight: 400;
+    }
+    
+    /* Filter Cards */
+    .filter-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .filter-section-title {
+        color: #1f2937;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
     
     /* Chart container */
     .chart-container {
-        background-color: white;
-        padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        border: 1px solid #e1e5e9;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
-    /* Selectbox styling */
+    /* Modern form controls */
     .stSelectbox > div > div {
-        border: 2px solid #e1e5e9 !important;
-        border-radius: 5px !important;
-        background-color: white !important;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+    }
+    
+    .stSelectbox > div > div:hover {
+        border-color: #667eea;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
     }
     
     .stSelectbox > div > div:focus-within {
-        border-color: #0070CC !important;
-        box-shadow: 0 0 0 1px #0070CC !important;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
     
-    /* Selectbox dropdown options */
-    .stSelectbox div[data-baseweb="select"] {
-        background-color: white !important;
-    }
-    
-    .stSelectbox div[data-baseweb="select"] > div {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    /* Selectbox dropdown menu */
-    .stSelectbox ul {
-        background-color: white !important;
-    }
-    
-    .stSelectbox li {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    .stSelectbox li:hover {
-        background-color: #f0f0f0 !important;
-    }
-    
-    /* Multiselect styling */
     .stMultiSelect > div > div {
-        border: 2px solid #e1e5e9 !important;
-        border-radius: 5px !important;
-        background-color: white !important;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+    }
+    
+    .stMultiSelect > div > div:hover {
+        border-color: #667eea;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
     }
     
     .stMultiSelect > div > div:focus-within {
-        border-color: #0070CC !important;
-        box-shadow: 0 0 0 1px #0070CC !important;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
     
-    /* Multiselect dropdown */
-    .stMultiSelect div[data-baseweb="select"] {
-        background-color: white !important;
+    /* Date input styling */
+    .stDateInput > div > div {
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
     }
     
-    .stMultiSelect div[data-baseweb="select"] > div {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    /* Multiselect options */
-    .stMultiSelect ul {
-        background-color: white !important;
-    }
-    
-    .stMultiSelect li {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    .stMultiSelect li:hover {
-        background-color: #f0f0f0 !important;
-    }
-    
-    /* Force all dropdown menus to be white */
-    div[data-baseweb="popover"] {
-        background-color: white !important;
-    }
-    
-    div[data-baseweb="popover"] div {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    /* Additional overrides for stubborn elements */
-    .css-1wa3eu0-placeholder, .css-12jo7m5, .css-1hb7zxy-IndicatorContainer {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    /* Override any remaining dark backgrounds */
-    div[role="listbox"] {
-        background-color: white !important;
-    }
-    
-    div[role="option"] {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    div[role="option"]:hover {
-        background-color: #f0f0f0 !important;
-    }
-    
-    /* Target specific Streamlit classes */
-    .st-emotion-cache-1y4p8pa, 
-    .st-emotion-cache-12fmjuu,
-    .st-emotion-cache-1rtdyuf {
-        background-color: white !important;
-        color: #333 !important;
+    .stDateInput > div > div:hover {
+        border-color: #667eea;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
     }
     
     /* Button styling */
     .stButton > button {
-        background-color: #0070CC;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border: none;
-        border-radius: 5px;
-        padding: 0.5rem 2rem;
+        border-radius: 12px;
+        padding: 0.75rem 2rem;
         font-weight: 600;
         font-size: 1rem;
         cursor: pointer;
         transition: all 0.3s ease;
-        width: 100%;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        text-transform: none;
+        letter-spacing: 0.025em;
     }
     
     .stButton > button:hover {
-        background-color: #005aa3;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 112, 204, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
     }
     
-    /* Metrics styling */
-    .metric-container {
-        background-color: white;
-        padding: 1rem;
-        border-radius: 8px;
-        text-align: center;
-        border: 1px solid #e9ecef;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    .stButton > button:active {
+        transform: translateY(0);
     }
     
-    /* Filter labels */
-    .filter-label {
-        color: #0070CC;
+    /* Clear button styling */
+    .clear-button > button {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 0.75rem 2rem;
         font-weight: 600;
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
     }
     
-    /* Info box */
-    .info-box {
-        background-color: white;
-        border: 1px solid #e1e5e9;
-        border-radius: 5px;
-        padding: 1rem;
+    .clear-button > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+    }
+    
+    /* Labels */
+    .stSelectbox label, .stMultiSelect label, .stDateInput label {
+        color: #374151 !important;
+        font-weight: 500 !important;
+        font-size: 0.95rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Metrics cards */
+    .metric-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: transform 0.2s ease;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-4px);
+    }
+    
+    /* Placeholder styling */
+    .placeholder-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 4rem 2rem;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin: 2rem 0;
+    }
+    
+    .placeholder-title {
+        color: #1f2937;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .placeholder-text {
+        color: #6b7280;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+    
+    /* Expander styling */
+    .streamlit-expanderHeader {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Alert styling */
+    .stAlert {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Info box styling */
+    .info-container {
+        background: rgba(59, 130, 246, 0.1);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: 16px;
+        padding: 1.5rem;
         margin: 1rem 0;
-        color: #333;
+        backdrop-filter: blur(10px);
     }
     
-    /* Force text colors */
-    .stMarkdown, .stText, p, div, span {
-        color: #333 !important;
+    /* Animation for loading */
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
     }
     
-    /* Fix selectbox text */
-    .stSelectbox label {
-        color: #0070CC !important;
-    }
-    
-    /* Fix multiselect text */
-    .stMultiSelect label {
-        color: #0070CC !important;
+    .loading {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Logo and Title
+# Header Section
 st.markdown('''
-<div style="text-align: center; margin-bottom: 2rem;">
-    <img src="https://raw.githubusercontent.com/vijayjadhav01/commodity-dashboard/main/Logo.png" 
-         style="height: 50px; margin-bottom: 1rem;" alt="IndiaSpend Logo">
-    <h1 style="color: #0070CC; font-size: 2.5rem; font-weight: 700; margin: 0; border-bottom: 3px solid #0070CC; padding-bottom: 1rem;">
-        Commodity Price Dashboard
-    </h1>
+<div class="header-container">
+    <h1 class="main-title">📈 Commodity Price Dashboard</h1>
+    <p class="subtitle">Real-time commodity price analysis and trends</p>
 </div>
 ''', unsafe_allow_html=True)
 
-# Configuration - Google Sheets URL (Updated with public access)
+# Configuration - Google Sheets URL
 GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8/edit?usp=sharing"
 
-# Load data function from Google Sheets
+# Load data function with better error handling
 @st.cache_data
 def load_data_from_google_sheets(sheet_url):
     try:
-        # Convert Google Sheets URL to CSV export URL
         if 'docs.google.com/spreadsheets' in sheet_url:
-            # Extract the sheet ID from the URL
             if '/d/' in sheet_url:
                 sheet_id = sheet_url.split('/d/')[1].split('/')[0]
                 csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
@@ -265,86 +302,178 @@ def load_data_from_google_sheets(sheet_url):
         else:
             csv_url = sheet_url
         
-        # Load data from Google Sheets
         df = pd.read_csv(csv_url)
         df['Date'] = pd.to_datetime(df['Date'])
         df = df.sort_values('Date')
-        
-        # Clean the data - remove rows with missing essential data
         df = df.dropna(subset=['Date', 'Commodity', 'Group', 'Price'])
         
         return df
         
     except Exception as e:
-        st.error(f"❌ Error loading data from Google Sheets: {str(e)}")
-        st.info("💡 Make sure your Google Sheet is shared publicly (Anyone with the link can view)")
+        st.error(f"❌ Error loading data: {str(e)}")
         return None
 
-# Load the data from Google Sheets
-data = load_data_from_google_sheets(GOOGLE_SHEET_URL)
+# Load the data
+with st.spinner('Loading data...'):
+    data = load_data_from_google_sheets(GOOGLE_SHEET_URL)
 
 if data is not None:
-    # Filters section (no container box)
-    st.markdown("##### 🔍 Filters")
+    # Initialize session state for filters
+    if 'selected_group' not in st.session_state:
+        st.session_state.selected_group = ''
+    if 'selected_commodities' not in st.session_state:
+        st.session_state.selected_commodities = []
+    if 'date_range' not in st.session_state:
+        min_date = data['Date'].min().date()
+        max_date = data['Date'].max().date()
+        st.session_state.date_range = (min_date, max_date)
     
-    # Create horizontal layout for filters
-    col1, col2, col3 = st.columns([2, 3, 1])
+    # Filters section
+    st.markdown('''
+    <div class="filter-container">
+        <h2 class="filter-section-title">🎛️ Filters & Controls</h2>
+    </div>
+    ''', unsafe_allow_html=True)
+    
+    # Create filter layout
+    col1, col2 = st.columns([3, 1])
     
     with col1:
-        st.markdown('<p class="filter-label">Select Group</p>', unsafe_allow_html=True)
-        groups = [''] + sorted(data['Group'].unique().tolist())
-        selected_group = st.selectbox(
-            "Group",
-            groups,
-            key="group_select",
-            label_visibility="collapsed"
-        )
+        # Filter controls in a nice grid
+        filter_col1, filter_col2, filter_col3 = st.columns([1, 2, 1])
+        
+        with filter_col1:
+            st.markdown("**📊 Select Group**")
+            groups = [''] + sorted(data['Group'].unique().tolist())
+            selected_group = st.selectbox(
+                "Group",
+                groups,
+                index=groups.index(st.session_state.selected_group) if st.session_state.selected_group in groups else 0,
+                key="group_select",
+                label_visibility="collapsed"
+            )
+            st.session_state.selected_group = selected_group
+        
+        with filter_col2:
+            st.markdown("**🛒 Select Commodities**")
+            if selected_group:
+                available_commodities = sorted(data[data['Group'] == selected_group]['Commodity'].unique())
+                # Filter session state commodities to only include available ones
+                valid_commodities = [c for c in st.session_state.selected_commodities if c in available_commodities]
+                selected_commodities = st.multiselect(
+                    "Commodities",
+                    available_commodities,
+                    default=valid_commodities,
+                    key="commodity_select",
+                    label_visibility="collapsed"
+                )
+                st.session_state.selected_commodities = selected_commodities
+            else:
+                st.multiselect(
+                    "Commodities",
+                    [],
+                    placeholder="Please select a group first",
+                    key="commodity_select_disabled",
+                    label_visibility="collapsed"
+                )
+                st.session_state.selected_commodities = []
+        
+        with filter_col3:
+            st.markdown("**📅 Date Range**")
+            min_date = data['Date'].min().date()
+            max_date = data['Date'].max().date()
+            
+            # Date range inputs
+            start_date = st.date_input(
+                "Start Date",
+                value=st.session_state.date_range[0],
+                min_value=min_date,
+                max_value=max_date,
+                key="start_date",
+                label_visibility="collapsed"
+            )
+            
+            end_date = st.date_input(
+                "End Date",
+                value=st.session_state.date_range[1],
+                min_value=min_date,
+                max_value=max_date,
+                key="end_date",
+                label_visibility="collapsed"
+            )
+            
+            st.session_state.date_range = (start_date, end_date)
     
     with col2:
-        st.markdown('<p class="filter-label">Select Commodities</p>', unsafe_allow_html=True)
-        if selected_group:
-            available_commodities = sorted(data[data['Group'] == selected_group]['Commodity'].unique())
-            selected_commodities = st.multiselect(
-                "Commodities",
-                available_commodities,
-                key="commodity_select",
-                label_visibility="collapsed"
-            )
-        else:
-            selected_commodities = []
-            st.multiselect(
-                "Commodities",
-                [],
-                placeholder="Please select a group first",
-                key="commodity_select_disabled",
-                label_visibility="collapsed"
-            )
+        st.markdown("**⚡ Actions**")
+        
+        # Action buttons
+        search_col, clear_col = st.columns(2)
+        
+        with search_col:
+            search_button = st.button("🔍 Search", key="search_btn", use_container_width=True)
+        
+        with clear_col:
+            if st.button("🗑️ Clear", key="clear_btn", use_container_width=True):
+                st.session_state.selected_group = ''
+                st.session_state.selected_commodities = []
+                st.session_state.date_range = (min_date, max_date)
+                st.rerun()
     
-    with col3:
-        st.markdown('<p class="filter-label">Apply Filters</p>', unsafe_allow_html=True)
-        submit_button = st.button("Search", key="submit_btn")
-    
-    # Show chart only when button is clicked and selections are made
-    if submit_button and selected_group and selected_commodities:
-        # Filter data
+    # Show results
+    if search_button and selected_group and st.session_state.selected_commodities:
+        # Filter data by date range and selections
         filtered_data = data[
             (data['Group'] == selected_group) & 
-            (data['Commodity'].isin(selected_commodities))
+            (data['Commodity'].isin(st.session_state.selected_commodities)) &
+            (data['Date'].dt.date >= start_date) &
+            (data['Date'].dt.date <= end_date)
         ]
         
         if not filtered_data.empty:
+            # Display metrics
+            st.markdown('<div class="chart-container">', unsafe_allow_html=True)
+            st.markdown("### 📊 Key Metrics")
+            
+            # Calculate metrics
+            latest_data = filtered_data.groupby('Commodity')['Date'].transform('max') == filtered_data['Date']
+            current_prices = filtered_data[latest_data]
+            
+            metric_cols = st.columns(len(st.session_state.selected_commodities))
+            
+            for i, commodity in enumerate(st.session_state.selected_commodities):
+                commodity_data = filtered_data[filtered_data['Commodity'] == commodity]
+                if not commodity_data.empty:
+                    current_price = commodity_data.iloc[-1]['Price']
+                    if len(commodity_data) > 1:
+                        previous_price = commodity_data.iloc[-2]['Price']
+                        change = current_price - previous_price
+                        change_pct = (change / previous_price) * 100
+                    else:
+                        change = 0
+                        change_pct = 0
+                    
+                    with metric_cols[i]:
+                        st.metric(
+                            label=commodity,
+                            value=f"₹{current_price:.2f}/kg",
+                            delta=f"{change_pct:+.1f}%"
+                        )
+            
+            st.markdown('</div>', unsafe_allow_html=True)
+            
             # Chart section
             st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-            st.markdown(f"### 📈 Retail Price Trends - {selected_group}")
+            st.markdown(f"### 📈 Price Trends - {selected_group}")
             
-            # Create the plot
+            # Create enhanced plot
             fig = go.Figure()
             
-            # Color palette
-            colors = ['#0070CC', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', 
-                     '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE']
+            # Modern color palette
+            colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', 
+                     '#00f2fe', '#43e97b', '#38f9d7', '#ffecd2', '#fcb69f']
             
-            for i, commodity in enumerate(selected_commodities):
+            for i, commodity in enumerate(st.session_state.selected_commodities):
                 commodity_data = filtered_data[filtered_data['Commodity'] == commodity]
                 
                 fig.add_trace(go.Scatter(
@@ -353,96 +482,107 @@ if data is not None:
                     mode='lines+markers',
                     name=commodity,
                     line=dict(color=colors[i % len(colors)], width=3),
-                    marker=dict(size=4),
+                    marker=dict(size=6, symbol='circle'),
                     hovertemplate=f'<b>{commodity}</b><br>' +
                                  'Date: %{x|%d %b %Y}<br>' +
-                                 'Retail Price: ₹%{y:.2f}/kg<br>' +
+                                 'Price: ₹%{y:.2f}/kg<br>' +
                                  '<extra></extra>'
                 ))
             
-            # Update layout
+            # Enhanced layout
             fig.update_layout(
                 title=None,
-                xaxis_title="Date",
-                yaxis_title="Retail Price (₹/kg)",
+                xaxis_title="📅 Date",
+                yaxis_title="💰 Price (₹/kg)",
                 hovermode='x unified',
-                plot_bgcolor='white',
-                paper_bgcolor='white',
-                font=dict(family="Arial, sans-serif", size=12, color='#333333'),
+                plot_bgcolor='rgba(255,255,255,0.1)',
+                paper_bgcolor='transparent',
+                font=dict(family="Inter, sans-serif", size=12, color='#374151'),
                 legend=dict(
                     orientation="h",
                     yanchor="bottom",
                     y=1.02,
-                    xanchor="right",
-                    x=1,
-                    bgcolor="rgba(255,255,255,0.8)",
-                    bordercolor="#0070CC",
+                    xanchor="center",
+                    x=0.5,
+                    bgcolor="rgba(255,255,255,0.9)",
+                    bordercolor="rgba(102,126,234,0.3)",
                     borderwidth=1,
-                    font=dict(color='#333333')
+                    font=dict(color='#374151')
                 ),
                 xaxis=dict(
                     showgrid=True,
                     gridwidth=1,
-                    gridcolor='rgba(128,128,128,0.2)',
+                    gridcolor='rgba(107,114,128,0.2)',
                     showline=True,
-                    linecolor='#0070CC',
-                    title_font=dict(color='#333333'),
-                    tickfont=dict(color='#333333')
+                    linecolor='rgba(102,126,234,0.5)',
+                    title_font=dict(color='#374151'),
+                    tickfont=dict(color='#374151')
                 ),
                 yaxis=dict(
                     showgrid=True,
                     gridwidth=1,
-                    gridcolor='rgba(128,128,128,0.2)',
+                    gridcolor='rgba(107,114,128,0.2)',
                     showline=True,
-                    linecolor='#0070CC',
-                    title_font=dict(color='#333333'),
-                    tickfont=dict(color='#333333')
+                    linecolor='rgba(102,126,234,0.5)',
+                    title_font=dict(color='#374151'),
+                    tickfont=dict(color='#374151')
                 ),
-                height=500
+                height=600,
+                margin=dict(t=20, b=20, l=20, r=20)
             )
             
             st.plotly_chart(fig, use_container_width=True)
-            
             st.markdown('</div>', unsafe_allow_html=True)
             
-            # Data table (optional)
-            with st.expander("📋 View Raw Data"):
-                st.dataframe(
-                    filtered_data[['Date', 'Commodity', 'Price']].pivot(
-                        index='Date', columns='Commodity', values='Price'
-                    ).round(2),
-                    use_container_width=True
+            # Enhanced data table
+            with st.expander("📋 View Detailed Data"):
+                pivot_table = filtered_data[['Date', 'Commodity', 'Price']].pivot(
+                    index='Date', columns='Commodity', values='Price'
+                ).round(2)
+                st.dataframe(pivot_table, use_container_width=True)
+                
+                # Download button
+                csv = pivot_table.to_csv()
+                st.download_button(
+                    label="📥 Download Data as CSV",
+                    data=csv,
+                    file_name=f"commodity_prices_{start_date}_to_{end_date}.csv",
+                    mime="text/csv"
                 )
         
         else:
-            st.warning("⚠️ No data available for the selected filters.")
+            st.warning("⚠️ No data available for the selected filters and date range.")
     
-    elif submit_button:
+    elif search_button:
         if not selected_group:
             st.warning("⚠️ Please select a group.")
-        elif not selected_commodities:
+        elif not st.session_state.selected_commodities:
             st.warning("⚠️ Please select at least one commodity.")
     
     else:
-        # Show placeholder when no filters applied
+        # Enhanced placeholder
         st.markdown('''
-        <div class="chart-container" style="text-align: center; padding: 4rem 2rem;">
-            <h3 style="color: #0070CC;">Select filters and click "Search" to view price trends</h3>
-            <p style="color: #666; font-size: 1.1rem;">Choose a commodity group and one or more commodities to get started</p>
+        <div class="placeholder-container">
+            <div class="placeholder-title">🎯 Ready to Explore Price Trends?</div>
+            <div class="placeholder-text">
+                Select your filters above and click "Search" to visualize commodity price movements.<br>
+                Use the date range filter to focus on specific time periods.
+            </div>
         </div>
         ''', unsafe_allow_html=True)
 
 else:
+    # Enhanced info section
     st.markdown('''
-    <div style="background-color: white; border: 1px solid #e1e5e9; border-radius: 8px; padding: 1rem; margin-bottom: 2rem; color: #333;">
-        <h3>🌐 Google Sheets Integration:</h3>
-        <p><strong>Current Sheet:</strong> <a href="https://docs.google.com/spreadsheets/d/18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8/edit?usp=sharing" target="_blank">View Google Sheet</a></p>
+    <div class="info-container">
+        <h3>🌐 Data Source Information</h3>
+        <p><strong>Google Sheets Integration:</strong> <a href="https://docs.google.com/spreadsheets/d/18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8/edit?usp=sharing" target="_blank">View Source Sheet</a></p>
         <p><strong>Requirements:</strong></p>
         <ul>
-            <li>Google Sheet must be shared publicly (Anyone with the link can view)</li>
-            <li>Required columns: Date, Commodity, Group, Price</li>
-            <li>Data automatically syncs from the cloud</li>
+            <li>✅ Public access (Anyone with link can view)</li>
+            <li>✅ Required columns: Date, Commodity, Group, Price</li>
+            <li>✅ Automatic cloud synchronization</li>
         </ul>
-        <p><strong>To update data:</strong> Simply edit the Google Sheet and refresh this dashboard</p>
+        <p><strong>💡 Tip:</strong> Edit the Google Sheet to update data automatically!</p>
     </div>
     ''', unsafe_allow_html=True)
