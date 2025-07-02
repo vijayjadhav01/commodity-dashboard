@@ -232,6 +232,22 @@ st.markdown("""
     .stMultiSelect label {
         color: #0070CC !important;
     }
+    
+    /* Date input styling */
+    .stDateInput > div > div {
+        border: 2px solid #e1e5e9 !important;
+        border-radius: 5px !important;
+        background-color: white !important;
+    }
+    
+    .stDateInput > div > div:focus-within {
+        border-color: #0070CC !important;
+        box-shadow: 0 0 0 1px #0070CC !important;
+    }
+    
+    .stDateInput label {
+        color: #0070CC !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -250,7 +266,7 @@ st.markdown('''
 GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8/edit?usp=sharing"
 
 # Load data function from Google Sheets
-@st.cache_data
+@st.cache_data(ttl=300)  # Cache expires every 5 minutes
 def load_data_from_google_sheets(sheet_url):
     try:
         # Convert Google Sheets URL to CSV export URL
@@ -288,7 +304,7 @@ if data is not None:
     st.markdown("##### 🔍 Filters")
     
     # Create horizontal layout for filters
-    col1, col2, col3 = st.columns([2, 3, 1])
+    col1, col2, col3, col4 = st.columns([2, 3, 2, 1])
     
     with col1:
         st.markdown('<p class="filter-label">Select Group</p>', unsafe_allow_html=True)
@@ -321,15 +337,54 @@ if data is not None:
             )
     
     with col3:
+        st.markdown('<p class="filter-label">Date Range</p>', unsafe_allow_html=True)
+        
+        date_col1, date_col2 = st.columns(2)
+        with date_col1:
+            start_date = st.date_input(
+                "Start Date",
+                value=data['Date'].min().date(),
+                min_value=data['Date'].min().date(),
+                max_value=data['Date'].max().date(),
+                key="start_date",
+                label_visibility="collapsed"
+            )
+        
+        with date_col2:
+            end_date = st.date_input(
+                "End Date",
+                value=data['Date'].max().date(),
+                min_value=data['Date'].min().date(),
+                max_value=data['Date'].max().date(),
+                key="end_date",
+                label_visibility="collapsed"
+            )
+    
+    with col4:
         st.markdown('<p class="filter-label">Apply Filters</p>', unsafe_allow_html=True)
         submit_button = st.button("Search", key="submit_btn")
+        
+        # Add Clear and Refresh buttons
+        clear_button = st.button("Clear", key="clear_btn")
+        refresh_button = st.button("Refresh", key="refresh_btn")
+    
+    # Handle Clear button
+    if clear_button:
+        st.rerun()
+    
+    # Handle Refresh button
+    if refresh_button:
+        st.cache_data.clear()
+        st.rerun()
     
     # Show chart only when button is clicked and selections are made
     if submit_button and selected_group and selected_commodities:
         # Filter data
         filtered_data = data[
             (data['Group'] == selected_group) & 
-            (data['Commodity'].isin(selected_commodities))
+            (data['Commodity'].isin(selected_commodities)) &
+            (data['Date'].dt.date >= start_date) &
+            (data['Date'].dt.date <= end_date)
         ]
         
         if not filtered_data.empty:
