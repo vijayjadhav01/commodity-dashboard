@@ -88,13 +88,11 @@ st.markdown("""
     
     .stMultiSelect div[data-baseweb="select"] {
         background-color: white !important;
-        border: none !important;
     }
     
     .stMultiSelect div[data-baseweb="select"] > div {
         background-color: white !important;
         color: #333 !important;
-        border: none !important;
     }
     
     .stMultiSelect ul {
