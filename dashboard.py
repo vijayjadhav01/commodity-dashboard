@@ -355,7 +355,7 @@ if data is not None:
                     line=dict(color=colors[i % len(colors)], width=3),
                     marker=dict(size=4),
                     hovertemplate=f'<b>{commodity}</b><br>' +
-                                 'Date: %{x}<br>' +
+                                 'Date: %{x|%d %b %Y}<br>' +
                                  'Retail Price: ₹%{y:.2f}/kg<br>' +
                                  '<extra></extra>'
                 ))
