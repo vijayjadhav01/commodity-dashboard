@@ -370,9 +370,7 @@ if data is not None:
         
         if not filtered_data.empty:
             st.markdown(f'''
-            <div class="chart-container">
-                <h3 style="color: #0070CC; margin-top: 0;">📈 Retail Price Trends - {selected_group}</h3>
-            </div>
+            <h3 style="color: #0070CC; margin-top: 0; text-align: center; margin-bottom: 2rem;">📈 Retail Price Trends - {selected_group}</h3>
             ''', unsafe_allow_html=True)
             
             # Create plot
