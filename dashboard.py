@@ -50,7 +50,6 @@ st.markdown("""
         background-color: white;
         padding: 1.5rem;
         border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         border: 1px solid #e1e5e9;
     }
     
@@ -63,7 +62,6 @@ st.markdown("""
     
     .stSelectbox > div > div:focus-within {
         border-color: #0070CC !important;
-        box-shadow: 0 0 0 1px #0070CC !important;
     }
     
     /* Selectbox dropdown options */
@@ -99,7 +97,6 @@ st.markdown("""
     
     .stMultiSelect > div > div:focus-within {
         border-color: #0070CC !important;
-        box-shadow: 0 0 0 1px #0070CC !important;
     }
     
     /* Multiselect dropdown */
@@ -204,15 +201,21 @@ st.markdown("""
         font-weight: 600;
         font-size: 1rem;
         cursor: pointer;
-        transition: all 0.3s ease;
         width: 100%;
     }
     
     .stButton > button:hover {
         background-color: #005aa3;
         color: white !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 112, 204, 0.3);
+    }
+    
+    /* Additional button text override */
+    .stButton > button * {
+        color: white !important;
+    }
+    
+    .stButton > button:hover * {
+        color: white !important;
     }
     
     /* Metrics styling */
@@ -222,7 +225,6 @@ st.markdown("""
         border-radius: 8px;
         text-align: center;
         border: 1px solid #e9ecef;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
     
     /* Filter labels */
