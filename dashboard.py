@@ -137,6 +137,25 @@ st.markdown("""
         color: #333 !important;
     }
     
+    /* Additional multiselect tag overrides */
+    .stMultiSelect span[data-baseweb="tag"] {
+        background-color: #f8f9fa !important;
+        color: #333 !important;
+        border: 1px solid #dee2e6 !important;
+    }
+    
+    /* Target all tag elements in multiselect */
+    div[data-testid="stMultiSelect"] div[data-baseweb="tag"] {
+        background-color: #f8f9fa !important;
+        color: #333 !important;
+        border: 1px solid #dee2e6 !important;
+    }
+    
+    /* Force override for tag text */
+    div[data-testid="stMultiSelect"] div[data-baseweb="tag"] * {
+        color: #333 !important;
+    }
+    
     /* Force all dropdown menus to be white */
     div[data-baseweb="popover"] {
         background-color: white !important;
