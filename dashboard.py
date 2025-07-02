@@ -88,11 +88,13 @@ st.markdown("""
     
     .stMultiSelect div[data-baseweb="select"] {
         background-color: white !important;
+        border: none !important;
     }
     
     .stMultiSelect div[data-baseweb="select"] > div {
         background-color: white !important;
         color: #333 !important;
+        border: none !important;
     }
     
     .stMultiSelect ul {
@@ -266,6 +268,71 @@ st.markdown("""
     
     .stDateInput label {
         color: #0070CC !important;
+    }
+    
+    /* Date picker calendar styling */
+    .stDateInput div[data-baseweb="calendar"] {
+        background-color: white !important;
+        border: 1px solid #e1e5e9 !important;
+        border-radius: 8px !important;
+    }
+    
+    .stDateInput div[data-baseweb="calendar"] * {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    /* Calendar header */
+    .stDateInput div[data-baseweb="calendar"] div[data-baseweb="calendar-header"] {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    /* Calendar days */
+    .stDateInput div[data-baseweb="calendar"] div[role="button"] {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    .stDateInput div[data-baseweb="calendar"] div[role="button"]:hover {
+        background-color: #f0f0f0 !important;
+        color: #333 !important;
+    }
+    
+    /* Selected date */
+    .stDateInput div[data-baseweb="calendar"] div[aria-selected="true"] {
+        background-color: #0070CC !important;
+        color: white !important;
+    }
+    
+    /* Today's date */
+    .stDateInput div[data-baseweb="calendar"] div[data-date] {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    /* Calendar navigation buttons */
+    .stDateInput button {
+        background-color: white !important;
+        color: #333 !important;
+        border: none !important;
+    }
+    
+    .stDateInput button:hover {
+        background-color: #f0f0f0 !important;
+        color: #333 !important;
+    }
+    
+    /* Force all calendar elements to be visible */
+    .stDateInput div[data-baseweb="popover"] {
+        background-color: white !important;
+        border: 1px solid #e1e5e9 !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    }
+    
+    .stDateInput div[data-baseweb="popover"] * {
+        color: #333 !important;
     }
 </style>
 """, unsafe_allow_html=True)
