@@ -303,8 +303,8 @@ if data is not None:
     # Filters section (no container box)
     st.markdown("##### 🔍 Filters")
     
-    # Create horizontal layout for filters
-    col1, col2, col3, col4 = st.columns([2, 3, 2, 1])
+    # First row: Group and Commodities
+    col1, col2 = st.columns([2, 3])
     
     with col1:
         st.markdown('<p class="filter-label">Select Group</p>', unsafe_allow_html=True)
@@ -336,36 +336,41 @@ if data is not None:
                 label_visibility="collapsed"
             )
     
-    with col3:
-        st.markdown('<p class="filter-label">Date Range</p>', unsafe_allow_html=True)
-        
-        date_col1, date_col2 = st.columns(2)
-        with date_col1:
-            start_date = st.date_input(
-                "Start Date",
-                value=data['Date'].min().date(),
-                min_value=data['Date'].min().date(),
-                max_value=data['Date'].max().date(),
-                key="start_date",
-                label_visibility="collapsed"
-            )
-        
-        with date_col2:
-            end_date = st.date_input(
-                "End Date",
-                value=data['Date'].max().date(),
-                min_value=data['Date'].min().date(),
-                max_value=data['Date'].max().date(),
-                key="end_date",
-                label_visibility="collapsed"
-            )
+    # Second row: Date Range
+    st.markdown('<p class="filter-label">Date Range</p>', unsafe_allow_html=True)
+    date_col1, date_col2 = st.columns(2)
     
-    with col4:
-        st.markdown('<p class="filter-label">Apply Filters</p>', unsafe_allow_html=True)
+    with date_col1:
+        start_date = st.date_input(
+            "Start Date",
+            value=data['Date'].min().date(),
+            min_value=data['Date'].min().date(),
+            max_value=data['Date'].max().date(),
+            key="start_date",
+            label_visibility="collapsed"
+        )
+    
+    with date_col2:
+        end_date = st.date_input(
+            "End Date",
+            value=data['Date'].max().date(),
+            min_value=data['Date'].min().date(),
+            max_value=data['Date'].max().date(),
+            key="end_date",
+            label_visibility="collapsed"
+        )
+    
+    # Third row: Action buttons
+    st.markdown('<p class="filter-label">Actions</p>', unsafe_allow_html=True)
+    btn_col1, btn_col2, btn_col3 = st.columns(3)
+    
+    with btn_col1:
         submit_button = st.button("Search", key="submit_btn")
-        
-        # Add Clear and Refresh buttons
+    
+    with btn_col2:
         clear_button = st.button("Clear", key="clear_btn")
+    
+    with btn_col3:
         refresh_button = st.button("Refresh", key="refresh_btn")
     
     # Handle Clear button
