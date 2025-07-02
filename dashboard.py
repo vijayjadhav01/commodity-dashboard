@@ -157,7 +157,7 @@ if data is not None:
         
         if not filtered_data.empty:
             st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-            st.markdown(f"### 📈 Retail Price Trends - {selected_group}")
+            st.markdown(f'<h3 style="color: #333333;">📈 Retail Price Trends - {selected_group}</h3>', unsafe_allow_html=True)
             
             fig = go.Figure()
             colors = ['#0070CC', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8']
@@ -174,7 +174,16 @@ if data is not None:
             fig.update_layout(
                 xaxis_title="Date", yaxis_title="Retail Price (₹/kg)",
                 plot_bgcolor='white', paper_bgcolor='white', height=500,
-                legend=dict(orientation="h", y=1.02, x=1, xanchor="right")
+                font=dict(color='#333333'),
+                legend=dict(orientation="h", y=1.02, x=1, xanchor="right", font=dict(color='#333333')),
+                xaxis=dict(
+                    title_font=dict(color='#333333'),
+                    tickfont=dict(color='#333333')
+                ),
+                yaxis=dict(
+                    title_font=dict(color='#333333'),
+                    tickfont=dict(color='#333333')
+                )
             )
             
             st.plotly_chart(fig, use_container_width=True)
