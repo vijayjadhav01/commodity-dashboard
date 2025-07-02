@@ -51,23 +51,13 @@ st.markdown("""
         padding-bottom: 1rem;
     }
     
-    /* Filter container */
-    .filter-container {
-        background-color: white;
-        padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 2rem;
-        border-left: 4px solid #0070CC;
-    }
-    
     /* Chart container */
     .chart-container {
         background-color: white;
         padding: 1.5rem;
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        border-left: 4px solid #0070CC;
+        border: 1px solid #e1e5e9;
     }
     
     /* Selectbox styling */
@@ -251,7 +241,7 @@ st.markdown('''
     <img src="https://raw.githubusercontent.com/yourusername/your-repo-name/main/Logo.png" 
          style="height: 80px; margin-bottom: 1rem;" alt="IndiaSpend Logo">
     <h1 style="color: #0070CC; font-size: 2.5rem; font-weight: 700; margin: 0; border-bottom: 3px solid #0070CC; padding-bottom: 1rem;">
-        Commodity Price Dashboard
+        📊 Commodity Price Dashboard
     </h1>
 </div>
 ''', unsafe_allow_html=True)
@@ -294,8 +284,7 @@ def load_data_from_google_sheets(sheet_url):
 data = load_data_from_google_sheets(GOOGLE_SHEET_URL)
 
 if data is not None:
-    # Filters section
-    st.markdown('<div class="filter-container">', unsafe_allow_html=True)
+    # Filters section (no container box)
     st.markdown("### 🔍 Filters")
     
     # Create horizontal layout for filters
@@ -333,9 +322,7 @@ if data is not None:
     
     with col3:
         st.markdown('<p class="filter-label">Apply Filters</p>', unsafe_allow_html=True)
-        submit_button = st.button("Show Chart", key="submit_btn")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+        submit_button = st.button("📊 Show Chart", key="submit_btn")
     
     # Show chart only when button is clicked and selections are made
     if submit_button and selected_group and selected_commodities:
@@ -442,8 +429,8 @@ if data is not None:
 
 else:
     st.markdown('''
-    <div class="info-box">
-        <h3>📁 Google Sheets Integration:</h3>
+    <div style="background-color: white; border: 1px solid #e1e5e9; border-radius: 8px; padding: 1rem; margin-bottom: 2rem; color: #333;">
+        <h3>🌐 Google Sheets Integration:</h3>
         <p><strong>Current Sheet:</strong> <a href="https://docs.google.com/spreadsheets/d/18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8/edit?usp=sharing" target="_blank">View Google Sheet</a></p>
         <p><strong>Requirements:</strong></p>
         <ul>
