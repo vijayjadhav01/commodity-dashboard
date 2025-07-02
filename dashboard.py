@@ -126,6 +126,17 @@ st.markdown("""
         background-color: #f0f0f0 !important;
     }
     
+    /* Multiselect selected tags styling */
+    .stMultiSelect div[data-baseweb="tag"] {
+        background-color: #f8f9fa !important;
+        color: #333 !important;
+        border: 1px solid #dee2e6 !important;
+    }
+    
+    .stMultiSelect div[data-baseweb="tag"] span {
+        color: #333 !important;
+    }
+    
     /* Force all dropdown menus to be white */
     div[data-baseweb="popover"] {
         background-color: white !important;
@@ -167,7 +178,7 @@ st.markdown("""
     /* Button styling */
     .stButton > button {
         background-color: #0070CC;
-        color: white;
+        color: white !important;
         border: none;
         border-radius: 5px;
         padding: 0.5rem 2rem;
@@ -180,6 +191,7 @@ st.markdown("""
     
     .stButton > button:hover {
         background-color: #005aa3;
+        color: white !important;
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(0, 112, 204, 0.3);
     }
