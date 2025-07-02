@@ -286,7 +286,7 @@ if data is not None:
     if 'selected_commodities' not in st.session_state:
         st.session_state.selected_commodities = []
     
-    st.markdown("##### 🔍 Filters")
+    # filter text was here
     col1, col2, col3, col4 = st.columns([1.5, 3, 1, 1])
     
     with col1:
