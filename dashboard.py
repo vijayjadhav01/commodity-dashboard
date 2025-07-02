@@ -388,7 +388,7 @@ if data is not None:
             
             # Update layout
             fig.update_layout(
-                xaxis_title="Date", yaxis_title="Retail Price (Rs/kg)", hovermode='x unified',
+                xaxis_title="Date", yaxis_title="Retail Price (₹/kg)", hovermode='x unified',
                 plot_bgcolor='white', paper_bgcolor='white', height=500,
                 font=dict(family="Arial, sans-serif", size=12, color='#333333'),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1,
@@ -402,7 +402,25 @@ if data is not None:
                           title_font=dict(color='#333333'), tickfont=dict(color='#333333'))
             )
             
-            st.plotly_chart(fig, use_container_width=True)
+            # Configure plotly chart with minimal toolbar
+            config = {
+                'displayModeBar': True,
+                'modeBarButtonsToRemove': [
+                    'zoom2d', 'pan2d', 'select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d',
+                    'autoScale2d', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian',
+                    'toggleSpikelines', 'toggleHover'
+                ],
+                'displaylogo': False,
+                'toImageButtonOptions': {
+                    'format': 'png',
+                    'filename': f'commodity_prices_{selected_group}',
+                    'height': 500,
+                    'width': 1200,
+                    'scale': 2
+                }
+            }
+            
+            st.plotly_chart(fig, use_container_width=True, config=config)
         else:
             st.warning("⚠️ No data available for the selected filters.")
     
