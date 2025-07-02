@@ -34,6 +34,23 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
     
+    /* Hide Streamlit branding and deploy button */
+    .stDeployButton {display: none;}
+    div[data-testid="stToolbar"] {visibility: hidden;}
+    div[data-testid="stDecoration"] {display: none;}
+    div[data-testid="stStatusWidget"] {display: none;}
+    
+    /* Hide bottom right corner elements */
+    .css-15zrgzn {display: none;}
+    .css-eczf16 {display: none;}
+    .css-jn99sy {display: none;}
+    
+    /* Additional hiding for mobile view */
+    .stActionButton {display: none;}
+    .viewerBadge_container__1QSob {display: none;}
+    .viewerBadge_link__1S137 {display: none;}
+    .viewerBadge_text__1JaDK {display: none;}
+    
     /* Title styling */
     .main-title {
         color: #0070CC;
