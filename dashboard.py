@@ -285,7 +285,7 @@ data = load_data_from_google_sheets(GOOGLE_SHEET_URL)
 
 if data is not None:
     # Filters section (no container box)
-    st.markdown("# 🔍 Filters")
+    st.markdown("##### 🔍 Filters")
     
     # Create horizontal layout for filters
     col1, col2, col3 = st.columns([2, 3, 1])
