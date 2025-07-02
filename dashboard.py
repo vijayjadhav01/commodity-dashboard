@@ -104,11 +104,12 @@ st.markdown("""
     
     /* Metrics styling */
     .metric-container {
-        background-color: #f8f9fa;
+        background-color: white;
         padding: 1rem;
         border-radius: 8px;
         text-align: center;
         border: 1px solid #e9ecef;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
     
     /* Filter labels */
@@ -121,18 +122,26 @@ st.markdown("""
     
     /* Info box */
     .info-box {
-        background-color: #e3f2fd;
-        border: 1px solid #0070CC;
+        background-color: white;
+        border: 1px solid #e1e5e9;
         border-radius: 5px;
         padding: 1rem;
         margin: 1rem 0;
-        color: #0070CC;
+        color: #333;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Title
-st.markdown('<h1 class="main-title">📊 Commodity Price Dashboard</h1>', unsafe_allow_html=True)
+# Title with logo
+st.markdown('''
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
+    <img src="https://indiaspend.com/h-upload/2023/03/15/1600x960_469844-indiaspend-logo.png" 
+         style="height: 60px; margin-right: 20px;" alt="IndiaSpend Logo">
+    <h1 style="color: #0070CC; font-size: 2.5rem; font-weight: 700; margin: 0; border-bottom: 3px solid #0070CC; padding-bottom: 1rem;">
+        📊 Commodity Price Dashboard
+    </h1>
+</div>
+''', unsafe_allow_html=True)
 
 # Configuration - Google Sheets URL (Updated with public access)
 GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8/edit?usp=sharing"
@@ -172,16 +181,6 @@ def load_data_from_google_sheets(sheet_url):
 data = load_data_from_google_sheets(GOOGLE_SHEET_URL)
 
 if data is not None:
-    # Data overview
-    st.markdown(f'''
-    <div class="info-box">
-        <strong>📈 Data Overview:</strong> {len(data):,} data points | 
-        {data['Group'].nunique()} commodity groups | 
-        {data['Commodity'].nunique()} commodities | 
-        Date range: {data['Date'].min().strftime('%B %Y')} to {data['Date'].max().strftime('%B %Y')}
-    </div>
-    ''', unsafe_allow_html=True)
-    
     # Filters section
     st.markdown('<div class="filter-container">', unsafe_allow_html=True)
     st.markdown("### 🔍 Filters")
@@ -298,31 +297,6 @@ if data is not None:
             )
             
             st.plotly_chart(fig, use_container_width=True)
-            
-            # Summary metrics
-            st.markdown("### 📊 Summary Statistics")
-            
-            metric_cols = st.columns(len(selected_commodities))
-            
-            for i, commodity in enumerate(selected_commodities):
-                commodity_data = filtered_data[filtered_data['Commodity'] == commodity]
-                
-                if not commodity_data.empty:
-                    current_price = commodity_data['Price'].iloc[-1]
-                    avg_price = commodity_data['Price'].mean()
-                    price_change = ((current_price - commodity_data['Price'].iloc[0]) / commodity_data['Price'].iloc[0]) * 100
-                    
-                    with metric_cols[i]:
-                        st.markdown(f'''
-                        <div class="metric-container">
-                            <h4 style="color: #0070CC; margin-bottom: 0.5rem;">{commodity}</h4>
-                            <p style="margin: 0.2rem 0;"><strong>Current:</strong> ₹{current_price:.2f}</p>
-                            <p style="margin: 0.2rem 0;"><strong>Average:</strong> ₹{avg_price:.2f}</p>
-                            <p style="margin: 0.2rem 0;"><strong>Change:</strong> 
-                            <span style="color: {'green' if price_change >= 0 else 'red'};">
-                            {price_change:+.1f}%</span></p>
-                        </div>
-                        ''', unsafe_allow_html=True)
             
             st.markdown('</div>', unsafe_allow_html=True)
             
