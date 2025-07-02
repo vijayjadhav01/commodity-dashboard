@@ -239,7 +239,7 @@ st.markdown("""
 st.markdown('''
 <div style="text-align: center; margin-bottom: 2rem;">
     <img src="https://raw.githubusercontent.com/vijayjadhav01/commodity-dashboard/main/Logo.png" 
-         style="height: 80px; margin-bottom: 1rem;" alt="IndiaSpend Logo">
+         style="height: 50px; margin-bottom: 1rem;" alt="IndiaSpend Logo">
     <h1 style="color: #0070CC; font-size: 2.5rem; font-weight: 700; margin: 0; border-bottom: 3px solid #0070CC; padding-bottom: 1rem;">
         Commodity Price Dashboard
     </h1>
