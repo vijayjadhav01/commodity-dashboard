@@ -16,7 +16,7 @@ st.markdown("""
     /* Main content area */
     .main .block-container {
         background-color: #ffffff !important;
-        padding-top: 1 rem !important;
+        padding-top: 0.5rem !important;
     }
     
     /* Sidebar (if any) */
@@ -264,7 +264,7 @@ st.markdown("""
 
 # Logo and Title
 st.markdown('''
-<div style="text-align: center; margin-bottom: 2rem;">
+<div style="text-align: center; margin-bottom: 2rem; margin-top: -1rem;">
     <img src="https://raw.githubusercontent.com/vijayjadhav01/commodity-dashboard/main/Logo.png" 
          style="height: 50px; margin-bottom: 1rem;" alt="IndiaSpend Logo">
     <h1 style="color: #0070CC; font-size: 2.5rem; font-weight: 700; margin: 0; border-bottom: 3px solid #0070CC; padding-bottom: 1rem;">
