@@ -305,11 +305,14 @@ if data is not None:
                 plot_bgcolor='white', paper_bgcolor='white', height=500,
                 font=dict(family="Arial, sans-serif", size=12, color='#333333'),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1,
-                           bgcolor="rgba(255,255,255,0.8)", bordercolor="#0070CC", borderwidth=1),
+                           bgcolor="rgba(255,255,255,0.8)", bordercolor="#0070CC", borderwidth=1,
+                           font=dict(color='#333333')),
                 xaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)', 
-                          showline=True, linecolor='#0070CC'),
+                          showline=True, linecolor='#0070CC',
+                          title_font=dict(color='#333333'), tickfont=dict(color='#333333')),
                 yaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)', 
-                          showline=True, linecolor='#0070CC')
+                          showline=True, linecolor='#0070CC',
+                          title_font=dict(color='#333333'), tickfont=dict(color='#333333'))
             )
             
             st.plotly_chart(fig, use_container_width=True)
