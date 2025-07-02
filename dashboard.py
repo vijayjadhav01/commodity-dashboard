@@ -304,7 +304,7 @@ if data is not None:
     st.markdown("##### 🔍 Filters")
     
     # First row: Group and Commodities
-    col1, col2 = st.columns([2, 3])
+    col1, col2, col3 = st.columns([1, 2, 3])
     
     with col1:
         st.markdown('<p class="filter-label">Select Group</p>', unsafe_allow_html=True)
@@ -338,7 +338,7 @@ if data is not None:
     
     # Second row: Date Range
     st.markdown('<p class="filter-label">Date Range</p>', unsafe_allow_html=True)
-    date_col1, date_col2 = st.columns(2)
+    spacer1, date_col1, date_col2, spacer2 = st.columns([1, 2, 2, 1])
     
     with date_col1:
         start_date = st.date_input(
@@ -362,7 +362,7 @@ if data is not None:
     
     # Third row: Action buttons
     st.markdown('<p class="filter-label">Actions</p>', unsafe_allow_html=True)
-    btn_col1, btn_col2, btn_col3 = st.columns(3)
+    spacer1, btn_col1, btn_col2, btn_col3, spacer2 = st.columns([1, 1, 1, 1, 1])
     
     with btn_col1:
         submit_button = st.button("Search", key="submit_btn")
