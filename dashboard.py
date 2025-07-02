@@ -1,15 +1,9 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
-from datetime import datetime
 
 # Page configuration
-st.set_page_config(
-    page_title="Commodity Price Dashboard",
-    layout="wide",
-    initial_sidebar_state="collapsed"
-)
+st.set_page_config(page_title="Commodity Price Dashboard", layout="wide", initial_sidebar_state="collapsed")
 
 # Custom CSS for styling
 st.markdown("""
@@ -246,185 +240,93 @@ st.markdown('''
 </div>
 ''', unsafe_allow_html=True)
 
-# Configuration - Google Sheets URL (Updated with public access)
-GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8/edit?usp=sharing"
-
-# Load data function from Google Sheets
+# Load data function
 @st.cache_data
-def load_data_from_google_sheets(sheet_url):
+def load_data():
     try:
-        # Convert Google Sheets URL to CSV export URL
-        if 'docs.google.com/spreadsheets' in sheet_url:
-            # Extract the sheet ID from the URL
-            if '/d/' in sheet_url:
-                sheet_id = sheet_url.split('/d/')[1].split('/')[0]
-                csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
-            else:
-                st.error("❌ Invalid Google Sheets URL format")
-                return None
-        else:
-            csv_url = sheet_url
-        
-        # Load data from Google Sheets
+        sheet_id = "18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8"
+        csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
         df = pd.read_csv(csv_url)
         df['Date'] = pd.to_datetime(df['Date'])
-        df = df.sort_values('Date')
-        
-        # Clean the data - remove rows with missing essential data
-        df = df.dropna(subset=['Date', 'Commodity', 'Group', 'Price'])
-        
-        return df
-        
+        return df.sort_values('Date').dropna(subset=['Date', 'Commodity', 'Group', 'Price'])
     except Exception as e:
-        st.error(f"❌ Error loading data from Google Sheets: {str(e)}")
-        st.info("💡 Make sure your Google Sheet is shared publicly (Anyone with the link can view)")
+        st.error(f"❌ Error loading data: {str(e)}")
         return None
 
-# Load the data from Google Sheets
-data = load_data_from_google_sheets(GOOGLE_SHEET_URL)
+# Load data
+data = load_data()
 
 if data is not None:
-    # Filters section (no container box)
+    # Filters
     st.markdown("##### 🔍 Filters")
-    
-    # Create horizontal layout for filters
     col1, col2, col3 = st.columns([2, 3, 1])
     
     with col1:
         st.markdown('<p class="filter-label">Select Group</p>', unsafe_allow_html=True)
-        groups = [''] + sorted(data['Group'].unique().tolist())
-        selected_group = st.selectbox(
-            "Group",
-            groups,
-            key="group_select",
-            label_visibility="collapsed"
-        )
+        selected_group = st.selectbox("Group", [''] + sorted(data['Group'].unique()), label_visibility="collapsed")
     
     with col2:
         st.markdown('<p class="filter-label">Select Commodities</p>', unsafe_allow_html=True)
         if selected_group:
-            available_commodities = sorted(data[data['Group'] == selected_group]['Commodity'].unique())
-            selected_commodities = st.multiselect(
-                "Commodities",
-                available_commodities,
-                key="commodity_select",
-                label_visibility="collapsed"
-            )
+            commodities = sorted(data[data['Group'] == selected_group]['Commodity'].unique())
+            selected_commodities = st.multiselect("Commodities", commodities, label_visibility="collapsed")
         else:
             selected_commodities = []
-            st.multiselect(
-                "Commodities",
-                [],
-                placeholder="Please select a group first",
-                key="commodity_select_disabled",
-                label_visibility="collapsed"
-            )
+            st.multiselect("Commodities", [], placeholder="Please select a group first", label_visibility="collapsed")
     
     with col3:
         st.markdown('<p class="filter-label">Apply Filters</p>', unsafe_allow_html=True)
-        submit_button = st.button("Search", key="submit_btn")
+        submit_button = st.button("Search")
     
-    # Show chart only when button is clicked and selections are made
+    # Show results
     if submit_button and selected_group and selected_commodities:
-        # Filter data
-        filtered_data = data[
-            (data['Group'] == selected_group) & 
-            (data['Commodity'].isin(selected_commodities))
-        ]
+        filtered_data = data[(data['Group'] == selected_group) & (data['Commodity'].isin(selected_commodities))]
         
         if not filtered_data.empty:
-            # Chart section
             st.markdown('<div class="chart-container">', unsafe_allow_html=True)
             st.markdown(f"### 📈 Retail Price Trends - {selected_group}")
             
-            # Create the plot
+            # Create plot
             fig = go.Figure()
-            
-            # Color palette
-            colors = ['#0070CC', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', 
-                     '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE']
+            colors = ['#0070CC', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE']
             
             for i, commodity in enumerate(selected_commodities):
                 commodity_data = filtered_data[filtered_data['Commodity'] == commodity]
-                
                 fig.add_trace(go.Scatter(
-                    x=commodity_data['Date'],
-                    y=commodity_data['Price'],
-                    mode='lines+markers',
-                    name=commodity,
-                    line=dict(color=colors[i % len(colors)], width=3),
-                    marker=dict(size=4),
-                    hovertemplate=f'<b>{commodity}</b><br>' +
-                                 'Date: %{x|%d %b %Y}<br>' +
-                                 'Retail Price: ₹%{y:.2f}/kg<br>' +
-                                 '<extra></extra>'
+                    x=commodity_data['Date'], y=commodity_data['Price'],
+                    mode='lines+markers', name=commodity,
+                    line=dict(color=colors[i % len(colors)], width=3), marker=dict(size=4),
+                    hovertemplate=f'<b>{commodity}</b><br>Date: %{{x|%d %b %Y}}<br>Retail Price: ₹%{{y:.2f}}/kg<br><extra></extra>'
                 ))
             
             # Update layout
             fig.update_layout(
-                title=None,
-                xaxis_title="Date",
-                yaxis_title="Retail Price (₹/kg)",
-                hovermode='x unified',
-                plot_bgcolor='white',
-                paper_bgcolor='white',
+                xaxis_title="Date", yaxis_title="Retail Price (₹/kg)", hovermode='x unified',
+                plot_bgcolor='white', paper_bgcolor='white', height=500,
                 font=dict(family="Arial, sans-serif", size=12, color='#333333'),
-                legend=dict(
-                    orientation="h",
-                    yanchor="bottom",
-                    y=1.02,
-                    xanchor="right",
-                    x=1,
-                    bgcolor="rgba(255,255,255,0.8)",
-                    bordercolor="#0070CC",
-                    borderwidth=1,
-                    font=dict(color='#333333')
-                ),
-                xaxis=dict(
-                    showgrid=True,
-                    gridwidth=1,
-                    gridcolor='rgba(128,128,128,0.2)',
-                    showline=True,
-                    linecolor='#0070CC',
-                    title_font=dict(color='#333333'),
-                    tickfont=dict(color='#333333')
-                ),
-                yaxis=dict(
-                    showgrid=True,
-                    gridwidth=1,
-                    gridcolor='rgba(128,128,128,0.2)',
-                    showline=True,
-                    linecolor='#0070CC',
-                    title_font=dict(color='#333333'),
-                    tickfont=dict(color='#333333')
-                ),
-                height=500
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1,
+                           bgcolor="rgba(255,255,255,0.8)", bordercolor="#0070CC", borderwidth=1),
+                xaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)', 
+                          showline=True, linecolor='#0070CC'),
+                yaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)', 
+                          showline=True, linecolor='#0070CC')
             )
             
             st.plotly_chart(fig, use_container_width=True)
-            
             st.markdown('</div>', unsafe_allow_html=True)
             
-            # Data table (optional)
+            # Data table
             with st.expander("📋 View Raw Data"):
-                st.dataframe(
-                    filtered_data[['Date', 'Commodity', 'Price']].pivot(
-                        index='Date', columns='Commodity', values='Price'
-                    ).round(2),
-                    use_container_width=True
-                )
-        
+                pivot_data = filtered_data[['Date', 'Commodity', 'Price']].pivot(index='Date', columns='Commodity', values='Price')
+                st.dataframe(pivot_data.round(2), use_container_width=True)
         else:
             st.warning("⚠️ No data available for the selected filters.")
     
     elif submit_button:
-        if not selected_group:
-            st.warning("⚠️ Please select a group.")
-        elif not selected_commodities:
-            st.warning("⚠️ Please select at least one commodity.")
+        st.warning("⚠️ Please select a group and at least one commodity.")
     
     else:
-        # Show placeholder when no filters applied
+        # Placeholder
         st.markdown('''
         <div class="chart-container" style="text-align: center; padding: 4rem 2rem;">
             <h3 style="color: #0070CC;">Select filters and click "Search" to view price trends</h3>
@@ -437,13 +339,7 @@ else:
     <div style="background-color: white; border: 1px solid #e1e5e9; border-radius: 8px; padding: 1rem; margin-bottom: 2rem; color: #333;">
         <h3>🌐 Google Sheets Integration:</h3>
         <p><strong>Current Sheet:</strong> <a href="https://docs.google.com/spreadsheets/d/18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8/edit?usp=sharing" target="_blank">View Google Sheet</a></p>
-        <p><strong>Requirements:</strong></p>
-        <ul>
-            <li>Google Sheet must be shared publicly (Anyone with the link can view)</li>
-            <li>Required columns: Date, Commodity, Group, Price</li>
-            <li>Data automatically syncs from the cloud</li>
-        </ul>
+        <p><strong>Requirements:</strong> Google Sheet must be shared publicly with required columns: Date, Commodity, Group, Price</p>
         <p><strong>To update data:</strong> Simply edit the Google Sheet and refresh this dashboard</p>
     </div>
     ''', unsafe_allow_html=True)
-    
