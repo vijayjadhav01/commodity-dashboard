@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-st.set_page_config(page_title="IndiaSpend Price Tracker", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Food Commodity Price Tracker", layout="wide", initial_sidebar_state="collapsed")
 
 st.markdown("""
 <style>
@@ -136,7 +136,7 @@ st.markdown('''
 </div>
 ''', unsafe_allow_html=True)
 
-@st.cache_data(ttl=300)  # Cache for 5 minutes (300 seconds)
+@st.cache_data(ttl=1800)  # Cache for 30 minutes instead of 5
 def load_data():
     try:
         sheet_id = "18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8"
