@@ -294,8 +294,8 @@ st.markdown('''
 </div>
 ''', unsafe_allow_html=True)
 
-col1, col2, col3 = st.columns([3, 2, 3])
+col1, col2, col3 = st.columns([2, 1, 2])
 with col2:
-    if st.button("🔄 Refresh Data", key="refresh_data", help="Click to reload the latest data", use_container_width=True):
+    if st.button("Refresh Data", key="refresh_data"):
         load_data.clear()
         st.rerun()
