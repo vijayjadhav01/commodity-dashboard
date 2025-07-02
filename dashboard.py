@@ -286,3 +286,11 @@ if data is not None:
 
 else:
     st.error("Unable to load data. Please try again.")
+
+# Refresh button at the bottom of the page
+st.markdown("---")
+col1, col2, col3 = st.columns([1, 1, 1])
+with col2:
+    if st.button("🔄 Refresh Data", key="refresh_data", help="Click to reload the latest data"):
+        load_data.clear()
+        st.rerun()
