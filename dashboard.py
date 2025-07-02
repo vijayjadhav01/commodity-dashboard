@@ -317,11 +317,6 @@ if data is not None:
             
             st.plotly_chart(fig, use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
-            
-            # Data table
-            with st.expander("📋 View Raw Data"):
-                pivot_data = filtered_data[['Date', 'Commodity', 'Price']].pivot(index='Date', columns='Commodity', values='Price')
-                st.dataframe(pivot_data.round(2), use_container_width=True)
         else:
             st.warning("⚠️ No data available for the selected filters.")
     
