@@ -268,7 +268,7 @@ st.markdown("""
         color: #0070CC !important;
     }
     
-    /* Date picker calendar styling */
+    /* Date picker calendar styling - comprehensive fix */
     .stDateInput div[data-baseweb="calendar"] {
         background-color: white !important;
         border: 1px solid #e1e5e9 !important;
@@ -330,6 +330,41 @@ st.markdown("""
     }
     
     .stDateInput div[data-baseweb="popover"] * {
+        color: #333 !important;
+    }
+    
+    /* Additional fixes for dark calendar elements */
+    .stDateInput div[data-baseweb="calendar"] table {
+        background-color: white !important;
+    }
+    
+    .stDateInput div[data-baseweb="calendar"] td {
+        background-color: white !important;
+    }
+    
+    .stDateInput div[data-baseweb="calendar"] th {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    /* Week day headers (Mo, Tu, We, etc.) */
+    .stDateInput div[data-baseweb="calendar"] thead th {
+        background-color: white !important;
+        color: #666 !important;
+    }
+    
+    /* Calendar month/year dropdowns */
+    .stDateInput select {
+        background-color: white !important;
+        color: #333 !important;
+        border: 1px solid #e1e5e9 !important;
+    }
+    
+    /* Force override any remaining dark elements */
+    .stDateInput [data-baseweb="calendar"] div,
+    .stDateInput [data-baseweb="calendar"] span,
+    .stDateInput [data-baseweb="calendar"] button {
+        background-color: white !important;
         color: #333 !important;
     }
 </style>
