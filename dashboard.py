@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-st.set_page_config(page_title="Commodity Price Dashboard", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Food Commodity Price Tracker", layout="wide", initial_sidebar_state="collapsed")
 
 st.markdown("""
 <style>
@@ -258,8 +258,10 @@ st.markdown("""
 
 st.markdown('''
 <div style="text-align: center; margin-bottom: 2rem; margin-top: -2rem;">
+    <img src="https://raw.githubusercontent.com/vijayjadhav01/commodity-dashboard/main/Logo.png" 
+         style="height: 50px; margin-bottom: 1rem;" alt="IndiaSpend Logo">
     <h1 style="color: #0070CC; font-size: 2.5rem; font-weight: 700; margin: 0; border-bottom: 3px solid #0070CC; padding-bottom: 1rem;">
-        Commodity Price Dashboard
+        Food Commodity Price Tracker
     </h1>
 </div>
 ''', unsafe_allow_html=True)
@@ -403,10 +405,3 @@ else:
         <p><strong>To update data:</strong> Simply edit the Google Sheet and refresh this dashboard</p>
     </div>
     ''', unsafe_allow_html=True)
-
-st.markdown('''
-<div style="text-align: center; margin-top: 3rem; padding: 2rem; border-top: 1px solid #e1e5e9;">
-    <img src="https://raw.githubusercontent.com/vijayjadhav01/commodity-dashboard/main/Logo.png" 
-         style="height: 40px;" alt="IndiaSpend Logo">
-</div>
-''', unsafe_allow_html=True)
