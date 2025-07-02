@@ -2,39 +2,31 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-# Page configuration
 st.set_page_config(page_title="Commodity Price Dashboard", layout="wide", initial_sidebar_state="collapsed")
 
-# Custom CSS for styling
 st.markdown("""
 <style>
-    /* Force light theme */
     .stApp {
         background-color: #ffffff !important;
     }
     
-    /* Main content area */
     .main .block-container {
         background-color: #ffffff !important;
         padding-top: 0rem !important;
     }
     
-    /* Sidebar (if any) */
     .css-1d391kg {
         background-color: #f8f9fa !important;
     }
     
-    /* Main theme color */
     :root {
         --primary-color: #0070CC;
     }
     
-    /* Hide Streamlit default elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
     
-    /* Title styling */
     .main-title {
         color: #0070CC;
         font-size: 2.5rem;
@@ -45,7 +37,6 @@ st.markdown("""
         padding-bottom: 1rem;
     }
     
-    /* Chart container */
     .chart-container {
         background-color: white;
         padding: 1.5rem;
@@ -53,7 +44,6 @@ st.markdown("""
         border: 1px solid #e1e5e9;
     }
     
-    /* Selectbox styling */
     .stSelectbox > div > div {
         border: 2px solid #e1e5e9 !important;
         border-radius: 5px !important;
@@ -64,7 +54,6 @@ st.markdown("""
         border-color: #0070CC !important;
     }
     
-    /* Selectbox dropdown options */
     .stSelectbox div[data-baseweb="select"] {
         background-color: white !important;
     }
@@ -74,7 +63,6 @@ st.markdown("""
         color: #333 !important;
     }
     
-    /* Selectbox dropdown menu */
     .stSelectbox ul {
         background-color: white !important;
     }
@@ -88,7 +76,6 @@ st.markdown("""
         background-color: #f0f0f0 !important;
     }
     
-    /* Multiselect styling */
     .stMultiSelect > div > div {
         border: 2px solid #e1e5e9 !important;
         border-radius: 5px !important;
@@ -99,7 +86,6 @@ st.markdown("""
         border-color: #0070CC !important;
     }
     
-    /* Multiselect dropdown */
     .stMultiSelect div[data-baseweb="select"] {
         background-color: white !important;
     }
@@ -109,7 +95,6 @@ st.markdown("""
         color: #333 !important;
     }
     
-    /* Multiselect options */
     .stMultiSelect ul {
         background-color: white !important;
     }
@@ -123,7 +108,6 @@ st.markdown("""
         background-color: #f0f0f0 !important;
     }
     
-    /* Multiselect selected tags styling */
     .stMultiSelect div[data-baseweb="tag"] {
         background-color: #f8f9fa !important;
         color: #333 !important;
@@ -134,26 +118,22 @@ st.markdown("""
         color: #333 !important;
     }
     
-    /* Additional multiselect tag overrides */
     .stMultiSelect span[data-baseweb="tag"] {
         background-color: #f8f9fa !important;
         color: #333 !important;
         border: 1px solid #dee2e6 !important;
     }
     
-    /* Target all tag elements in multiselect */
     div[data-testid="stMultiSelect"] div[data-baseweb="tag"] {
         background-color: #f8f9fa !important;
         color: #333 !important;
         border: 1px solid #dee2e6 !important;
     }
     
-    /* Force override for tag text */
     div[data-testid="stMultiSelect"] div[data-baseweb="tag"] * {
         color: #333 !important;
     }
     
-    /* Force all dropdown menus to be white */
     div[data-baseweb="popover"] {
         background-color: white !important;
     }
@@ -163,13 +143,11 @@ st.markdown("""
         color: #333 !important;
     }
     
-    /* Additional overrides for stubborn elements */
     .css-1wa3eu0-placeholder, .css-12jo7m5, .css-1hb7zxy-IndicatorContainer {
         background-color: white !important;
         color: #333 !important;
     }
     
-    /* Override any remaining dark backgrounds */
     div[role="listbox"] {
         background-color: white !important;
     }
@@ -183,7 +161,6 @@ st.markdown("""
         background-color: #f0f0f0 !important;
     }
     
-    /* Target specific Streamlit classes */
     .st-emotion-cache-1y4p8pa, 
     .st-emotion-cache-12fmjuu,
     .st-emotion-cache-1rtdyuf {
@@ -191,7 +168,6 @@ st.markdown("""
         color: #333 !important;
     }
     
-    /* Button styling */
     .stButton > button {
         background-color: #0070CC;
         color: white !important;
@@ -209,7 +185,6 @@ st.markdown("""
         color: white !important;
     }
     
-    /* Clear button styling */
     .clear-button > button {
         background-color: #6c757d !important;
         color: white !important;
@@ -227,7 +202,6 @@ st.markdown("""
         color: white !important;
     }
     
-    /* Additional button text override */
     .stButton > button * {
         color: white !important;
     }
@@ -244,7 +218,6 @@ st.markdown("""
         color: white !important;
     }
     
-    /* Metrics styling */
     .metric-container {
         background-color: white;
         padding: 1rem;
@@ -253,7 +226,6 @@ st.markdown("""
         border: 1px solid #e9ecef;
     }
     
-    /* Filter labels */
     .filter-label {
         color: #0070CC;
         font-weight: 600;
@@ -261,7 +233,6 @@ st.markdown("""
         margin-bottom: 0.5rem;
     }
     
-    /* Info box */
     .info-box {
         background-color: white;
         border: 1px solid #e1e5e9;
@@ -271,24 +242,20 @@ st.markdown("""
         color: #333;
     }
     
-    /* Force text colors */
     .stMarkdown, .stText, p, div, span {
         color: #333 !important;
     }
     
-    /* Fix selectbox text */
     .stSelectbox label {
         color: #0070CC !important;
     }
     
-    /* Fix multiselect text */
     .stMultiSelect label {
         color: #0070CC !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Logo and Title
 st.markdown('''
 <div style="text-align: center; margin-bottom: 2rem; margin-top: -2rem;">
     <img src="https://raw.githubusercontent.com/vijayjadhav01/commodity-dashboard/main/Logo.png" 
@@ -299,7 +266,6 @@ st.markdown('''
 </div>
 ''', unsafe_allow_html=True)
 
-# Load data function
 @st.cache_data
 def load_data():
     try:
@@ -312,17 +278,14 @@ def load_data():
         st.error(f"❌ Error loading data: {str(e)}")
         return None
 
-# Load data
 data = load_data()
 
 if data is not None:
-    # Initialize session state for filters
     if 'selected_group' not in st.session_state:
         st.session_state.selected_group = ''
     if 'selected_commodities' not in st.session_state:
         st.session_state.selected_commodities = []
     
-    # Filters
     st.markdown("##### 🔍 Filters")
     col1, col2, col3, col4 = st.columns([1.5, 3, 1, 1])
     
@@ -338,7 +301,6 @@ if data is not None:
         st.markdown('<p class="filter-label">Select Commodities</p>', unsafe_allow_html=True)
         if selected_group:
             commodities = sorted(data[data['Group'] == selected_group]['Commodity'].unique())
-            # Filter session state commodities to only include those available for current group
             valid_commodities = [comm for comm in st.session_state.selected_commodities if comm in commodities]
             selected_commodities = st.multiselect("Commodities", commodities, 
                                                 default=valid_commodities,
@@ -364,7 +326,6 @@ if data is not None:
             st.session_state.selected_commodities = []
             st.rerun()
     
-    # Show results
     if submit_button and selected_group and selected_commodities:
         filtered_data = data[(data['Group'] == selected_group) & (data['Commodity'].isin(selected_commodities))]
         
@@ -373,7 +334,6 @@ if data is not None:
             <h3 style="color: #0070CC; margin-top: 0; text-align: center; margin-bottom: 2rem;">📈 Retail Price Trends - {selected_group}</h3>
             ''', unsafe_allow_html=True)
             
-            # Create plot
             fig = go.Figure()
             colors = ['#0070CC', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE']
             
@@ -386,7 +346,6 @@ if data is not None:
                     hovertemplate=f'<b>{commodity}</b><br>Date: %{{x|%d %b %Y}}<br>Retail Price: ₹%{{y:.2f}}/kg<br><extra></extra>'
                 ))
             
-            # Update layout
             fig.update_layout(
                 xaxis_title="Date", yaxis_title="Retail Price (₹/kg)", hovermode='x unified',
                 plot_bgcolor='white', paper_bgcolor='white', height=500,
@@ -405,7 +364,6 @@ if data is not None:
                 dragmode=False
             )
             
-            # Configure plotly chart with minimal toolbar
             config = {
                 'displayModeBar': True,
                 'modeBarButtonsToRemove': [
@@ -433,7 +391,6 @@ if data is not None:
         st.warning("⚠️ Please select a group and at least one commodity.")
     
     else:
-        # Placeholder
         st.markdown('''
         <div class="chart-container" style="text-align: center; padding: 4rem 2rem;">
             <h3 style="color: #0070CC;">Select filters and click "Search" to view price trends</h3>
