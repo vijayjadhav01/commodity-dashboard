@@ -303,8 +303,8 @@ if data is not None:
     # Filters section (no container box)
     st.markdown("##### 🔍 Filters")
     
-    # First row: Group and Commodities
-    col1, col2, col3 = st.columns([1, 2, 3])
+    # First row: Group, Commodities, and Search
+    col1, col2, col3 = st.columns([2, 3, 1])
     
     with col1:
         st.markdown('<p class="filter-label">Select Group</p>', unsafe_allow_html=True)
@@ -336,11 +336,15 @@ if data is not None:
                 label_visibility="collapsed"
             )
     
-    # Second row: Date Range
-    st.markdown('<p class="filter-label">Date Range</p>', unsafe_allow_html=True)
-    spacer1, date_col1, date_col2, spacer2 = st.columns([1, 2, 2, 1])
+    with col3:
+        st.markdown('<p class="filter-label">Search</p>', unsafe_allow_html=True)
+        submit_button = st.button("Search", key="submit_btn")
+    
+    # Second row: Date Range and Clear
+    date_col1, date_col2, clear_col = st.columns([2, 2, 1])
     
     with date_col1:
+        st.markdown('<p class="filter-label">Start Date</p>', unsafe_allow_html=True)
         start_date = st.date_input(
             "Start Date",
             value=data['Date'].min().date(),
@@ -351,6 +355,7 @@ if data is not None:
         )
     
     with date_col2:
+        st.markdown('<p class="filter-label">End Date</p>', unsafe_allow_html=True)
         end_date = st.date_input(
             "End Date",
             value=data['Date'].max().date(),
@@ -360,26 +365,12 @@ if data is not None:
             label_visibility="collapsed"
         )
     
-    # Third row: Action buttons
-    st.markdown('<p class="filter-label">Actions</p>', unsafe_allow_html=True)
-    spacer1, btn_col1, btn_col2, btn_col3, spacer2 = st.columns([1, 1, 1, 1, 1])
-    
-    with btn_col1:
-        submit_button = st.button("Search", key="submit_btn")
-    
-    with btn_col2:
+    with clear_col:
+        st.markdown('<p class="filter-label">Clear</p>', unsafe_allow_html=True)
         clear_button = st.button("Clear", key="clear_btn")
-    
-    with btn_col3:
-        refresh_button = st.button("Refresh", key="refresh_btn")
     
     # Handle Clear button
     if clear_button:
-        st.rerun()
-    
-    # Handle Refresh button
-    if refresh_button:
-        st.cache_data.clear()
         st.rerun()
     
     # Show chart only when button is clicked and selections are made
