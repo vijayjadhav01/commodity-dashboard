@@ -427,7 +427,7 @@ if data is not None:
         # Show placeholder when no filters applied
         st.markdown('''
         <div class="chart-container" style="text-align: center; padding: 4rem 2rem;">
-            <h3 style="color: #0070CC;">📊 Select filters and click "Show Chart" to view price trends</h3>
+            <h3 style="color: #0070CC;">Select filters and click "Search" to view price trends</h3>
             <p style="color: #666; font-size: 1.1rem;">Choose a commodity group and one or more commodities to get started</p>
         </div>
         ''', unsafe_allow_html=True)
