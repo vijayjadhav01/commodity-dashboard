@@ -368,6 +368,7 @@ if data is not None:
                 hovermode='x unified',
                 plot_bgcolor='white',
                 paper_bgcolor='white',
+                showlegend=True,  # Always show legend
                 font=dict(family="Arial, sans-serif", size=12, color='#333333'),
                 legend=dict(
                     orientation="h",
@@ -401,7 +402,20 @@ if data is not None:
                 height=500
             )
             
-            st.plotly_chart(fig, use_container_width=True)
+            # Display chart with no toolbar - only hover tooltips
+            st.plotly_chart(
+                fig, 
+                use_container_width=True,
+                config={
+                    'displayModeBar': False,  # Removes the entire toolbar
+                    'staticPlot': False,      # Keeps interactivity for hover
+                    'doubleClick': False,     # Disables double-click actions
+                    'showTips': False,        # Removes the tips
+                    'displaylogo': False,     # Removes Plotly logo
+                    'scrollZoom': False,      # Disable scroll to zoom
+                    'dragMode': False,        # Disable dragging
+                }
+            )
             
             st.markdown('</div>', unsafe_allow_html=True)
             
