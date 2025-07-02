@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-st.set_page_config(page_title="Food Commodity Price Tracker", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Commodity Price Dashboard", layout="wide", initial_sidebar_state="collapsed")
 
 st.markdown("""
 <style>
@@ -261,7 +261,7 @@ st.markdown('''
     <img src="https://raw.githubusercontent.com/vijayjadhav01/commodity-dashboard/main/Logo.png" 
          style="height: 50px; margin-bottom: 1rem;" alt="IndiaSpend Logo">
     <h1 style="color: #0070CC; font-size: 2.5rem; font-weight: 700; margin: 0; border-bottom: 3px solid #0070CC; padding-bottom: 1rem;">
-        Food Commodity Price Tracker
+        Commodity Price Dashboard
     </h1>
 </div>
 ''', unsafe_allow_html=True)
@@ -286,6 +286,7 @@ if data is not None:
     if 'selected_commodities' not in st.session_state:
         st.session_state.selected_commodities = []
     
+    st.markdown("##### 🔍 Filters")
     col1, col2, col3, col4 = st.columns([1.5, 3, 1, 1])
     
     with col1:
@@ -330,7 +331,7 @@ if data is not None:
         
         if not filtered_data.empty:
             st.markdown(f'''
-            <h3 style="color: #0070CC; margin-top: 0; text-align: center; margin-bottom: 1rem; font-size: 1.5rem;">Retail Price Trends - {selected_group}</h3>
+            <h3 style="color: #0070CC; margin-top: 0; text-align: center; margin-bottom: 2rem;">📈 Retail Price Trends - {selected_group}</h3>
             ''', unsafe_allow_html=True)
             
             fig = go.Figure()
