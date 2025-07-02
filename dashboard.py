@@ -73,26 +73,112 @@ st.markdown("""
     
     /* Selectbox styling */
     .stSelectbox > div > div {
-        border: 2px solid #e1e5e9;
-        border-radius: 5px;
+        border: 2px solid #e1e5e9 !important;
+        border-radius: 5px !important;
         background-color: white !important;
     }
     
     .stSelectbox > div > div:focus-within {
-        border-color: #0070CC;
-        box-shadow: 0 0 0 1px #0070CC;
+        border-color: #0070CC !important;
+        box-shadow: 0 0 0 1px #0070CC !important;
+    }
+    
+    /* Selectbox dropdown options */
+    .stSelectbox div[data-baseweb="select"] {
+        background-color: white !important;
+    }
+    
+    .stSelectbox div[data-baseweb="select"] > div {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    /* Selectbox dropdown menu */
+    .stSelectbox ul {
+        background-color: white !important;
+    }
+    
+    .stSelectbox li {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    .stSelectbox li:hover {
+        background-color: #f0f0f0 !important;
     }
     
     /* Multiselect styling */
     .stMultiSelect > div > div {
-        border: 2px solid #e1e5e9;
-        border-radius: 5px;
+        border: 2px solid #e1e5e9 !important;
+        border-radius: 5px !important;
         background-color: white !important;
     }
     
     .stMultiSelect > div > div:focus-within {
-        border-color: #0070CC;
-        box-shadow: 0 0 0 1px #0070CC;
+        border-color: #0070CC !important;
+        box-shadow: 0 0 0 1px #0070CC !important;
+    }
+    
+    /* Multiselect dropdown */
+    .stMultiSelect div[data-baseweb="select"] {
+        background-color: white !important;
+    }
+    
+    .stMultiSelect div[data-baseweb="select"] > div {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    /* Multiselect options */
+    .stMultiSelect ul {
+        background-color: white !important;
+    }
+    
+    .stMultiSelect li {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    .stMultiSelect li:hover {
+        background-color: #f0f0f0 !important;
+    }
+    
+    /* Force all dropdown menus to be white */
+    div[data-baseweb="popover"] {
+        background-color: white !important;
+    }
+    
+    div[data-baseweb="popover"] div {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    /* Additional overrides for stubborn elements */
+    .css-1wa3eu0-placeholder, .css-12jo7m5, .css-1hb7zxy-IndicatorContainer {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    /* Override any remaining dark backgrounds */
+    div[role="listbox"] {
+        background-color: white !important;
+    }
+    
+    div[role="option"] {
+        background-color: white !important;
+        color: #333 !important;
+    }
+    
+    div[role="option"]:hover {
+        background-color: #f0f0f0 !important;
+    }
+    
+    /* Target specific Streamlit classes */
+    .st-emotion-cache-1y4p8pa, 
+    .st-emotion-cache-12fmjuu,
+    .st-emotion-cache-1rtdyuf {
+        background-color: white !important;
+        color: #333 !important;
     }
     
     /* Button styling */
