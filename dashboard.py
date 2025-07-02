@@ -15,10 +15,6 @@ st.markdown("""
         padding-top: 0rem !important;
     }
     
-    .css-1d391kg {
-        background-color: #f8f9fa !important;
-    }
-    
     :root {
         --primary-color: #0070CC;
     }
@@ -27,16 +23,6 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
     
-    .main-title {
-        color: #0070CC;
-        font-size: 2.5rem;
-        font-weight: 700;
-        text-align: center;
-        margin-bottom: 2rem;
-        border-bottom: 3px solid #0070CC;
-        padding-bottom: 1rem;
-    }
-    
     .chart-container {
         background-color: white;
         padding: 1.5rem;
@@ -44,67 +30,35 @@ st.markdown("""
         border: 1px solid #e1e5e9;
     }
     
-    .stSelectbox > div > div {
+    .stSelectbox > div > div, .stMultiSelect > div > div, .stDateInput > div > div {
         border: 2px solid #e1e5e9 !important;
         border-radius: 5px !important;
         background-color: white !important;
     }
     
-    .stSelectbox > div > div:focus-within {
+    .stSelectbox > div > div:focus-within, .stMultiSelect > div > div:focus-within, .stDateInput > div > div:focus-within {
         border-color: #0070CC !important;
     }
     
-    .stSelectbox div[data-baseweb="select"] {
+    .stSelectbox div[data-baseweb="select"], .stMultiSelect div[data-baseweb="select"] {
         background-color: white !important;
     }
     
-    .stSelectbox div[data-baseweb="select"] > div {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    .stSelectbox ul {
-        background-color: white !important;
-    }
-    
-    .stSelectbox li {
+    .stSelectbox div[data-baseweb="select"] > div, .stMultiSelect div[data-baseweb="select"] > div {
         background-color: white !important;
         color: #333 !important;
     }
     
-    .stSelectbox li:hover {
-        background-color: #f0f0f0 !important;
-    }
-    
-    .stMultiSelect > div > div {
-        border: 2px solid #e1e5e9 !important;
-        border-radius: 5px !important;
+    .stSelectbox ul, .stMultiSelect ul {
         background-color: white !important;
     }
     
-    .stMultiSelect > div > div:focus-within {
-        border-color: #0070CC !important;
-    }
-    
-    .stMultiSelect div[data-baseweb="select"] {
-        background-color: white !important;
-    }
-    
-    .stMultiSelect div[data-baseweb="select"] > div {
+    .stSelectbox li, .stMultiSelect li {
         background-color: white !important;
         color: #333 !important;
     }
     
-    .stMultiSelect ul {
-        background-color: white !important;
-    }
-    
-    .stMultiSelect li {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    .stMultiSelect li:hover {
+    .stSelectbox li:hover, .stMultiSelect li:hover {
         background-color: #f0f0f0 !important;
     }
     
@@ -114,58 +68,17 @@ st.markdown("""
         border: 1px solid #dee2e6 !important;
     }
     
-    .stMultiSelect div[data-baseweb="tag"] span {
-        color: #333 !important;
-    }
-    
-    .stMultiSelect span[data-baseweb="tag"] {
-        background-color: #f8f9fa !important;
-        color: #333 !important;
-        border: 1px solid #dee2e6 !important;
-    }
-    
-    div[data-testid="stMultiSelect"] div[data-baseweb="tag"] {
-        background-color: #f8f9fa !important;
-        color: #333 !important;
-        border: 1px solid #dee2e6 !important;
-    }
-    
-    div[data-testid="stMultiSelect"] div[data-baseweb="tag"] * {
-        color: #333 !important;
-    }
-    
     div[data-baseweb="popover"] {
         background-color: white !important;
     }
     
-    div[data-baseweb="popover"] div {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    .css-1wa3eu0-placeholder, .css-12jo7m5, .css-1hb7zxy-IndicatorContainer {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    div[role="listbox"] {
-        background-color: white !important;
-    }
-    
-    div[role="option"] {
+    div[role="listbox"], div[role="option"] {
         background-color: white !important;
         color: #333 !important;
     }
     
     div[role="option"]:hover {
         background-color: #f0f0f0 !important;
-    }
-    
-    .st-emotion-cache-1y4p8pa, 
-    .st-emotion-cache-12fmjuu,
-    .st-emotion-cache-1rtdyuf {
-        background-color: white !important;
-        color: #333 !important;
     }
     
     .stButton > button {
@@ -176,54 +89,11 @@ st.markdown("""
         padding: 0.5rem 2rem;
         font-weight: 600;
         font-size: 1rem;
-        cursor: pointer;
         width: 100%;
     }
     
     .stButton > button:hover {
         background-color: #005aa3;
-        color: white !important;
-    }
-    
-    .clear-button > button {
-        background-color: #6c757d !important;
-        color: white !important;
-        border: none;
-        border-radius: 5px;
-        padding: 0.5rem 2rem;
-        font-weight: 600;
-        font-size: 1rem;
-        cursor: pointer;
-        width: 100%;
-    }
-    
-    .clear-button > button:hover {
-        background-color: #5a6268 !important;
-        color: white !important;
-    }
-    
-    .stButton > button * {
-        color: white !important;
-    }
-    
-    .stButton > button:hover * {
-        color: white !important;
-    }
-    
-    .clear-button > button * {
-        color: white !important;
-    }
-    
-    .clear-button > button:hover * {
-        color: white !important;
-    }
-    
-    .metric-container {
-        background-color: white;
-        padding: 1rem;
-        border-radius: 8px;
-        text-align: center;
-        border: 1px solid #e9ecef;
     }
     
     .filter-label {
@@ -233,75 +103,22 @@ st.markdown("""
         margin-bottom: 0.5rem;
     }
     
-    .info-box {
-        background-color: white;
-        border: 1px solid #e1e5e9;
-        border-radius: 5px;
-        padding: 1rem;
-        margin: 1rem 0;
-        color: #333;
-    }
-    
-    .stMarkdown, .stText, p, div, span {
-        color: #333 !important;
-    }
-    
-    .stSelectbox label {
+    .stSelectbox label, .stMultiSelect label, .stDateInput label {
         color: #0070CC !important;
     }
     
-    .stMultiSelect label {
-        color: #0070CC !important;
-    }
-    
-    .stDateInput > div > div {
-        border: 2px solid #e1e5e9 !important;
-        border-radius: 5px !important;
-        background-color: white !important;
-    }
-    
-    .stDateInput > div > div:focus-within {
-        border-color: #0070CC !important;
-    }
-    
-    .stDateInput label {
-        color: #0070CC !important;
-    }
-    
-    /* Simple calendar dropdown styling */
     .stDateInput div[data-baseweb="popover"] {
         background-color: white !important;
         border: 1px solid #e1e5e9 !important;
         border-radius: 5px !important;
     }
     
-    .stDateInput div[data-baseweb="calendar"] {
-        background-color: white !important;
-    }
-    
-    /* Calendar navigation buttons */
     .stDateInput div[data-baseweb="calendar"] button {
         background-color: #0070CC !important;
         color: white !important;
         border: none !important;
-        border-radius: 3px !important;
     }
     
-    .stDateInput div[data-baseweb="calendar"] button:hover {
-        background-color: #005aa3 !important;
-    }
-    
-    /* Individual date cells */
-    .stDateInput div[data-baseweb="calendar"] div[role="button"] {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    .stDateInput div[data-baseweb="calendar"] div[role="button"]:hover {
-        background-color: #f0f0f0 !important;
-    }
-    
-    /* Selected date */
     .stDateInput div[data-baseweb="calendar"] div[aria-selected="true"] {
         background-color: #0070CC !important;
         color: white !important;
