@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from datetime import datetime, date
+from datetime import datetime
 
 # Page configuration
 st.set_page_config(
@@ -22,7 +22,7 @@ st.markdown("""
     /* Main content area */
     .main .block-container {
         background-color: #ffffff !important;
-        padding-top: 1rem !important;
+        padding-top: 1 rem !important;
     }
     
     /* Sidebar (if any) */
@@ -40,39 +40,15 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
     
-    /* Logo container */
-    .logo-container {
-        background-color: white;
-        border: 2px solid #0070CC;
-        border-radius: 10px;
-        padding: 1.5rem;
-        text-align: center;
-        margin-bottom: 1rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Title container */
-    .title-container {
-        background-color: white;
-        border: 2px solid #0070CC;
-        border-radius: 10px;
-        padding: 1.5rem;
-        text-align: center;
-        margin-bottom: 2rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    
+    /* Title styling */
     .main-title {
         color: #0070CC;
         font-size: 2.5rem;
         font-weight: 700;
-        margin: 0;
-    }
-    
-    /* Separator line */
-    .separator {
-        border-top: 3px solid #0070CC;
-        margin: 2rem 0;
+        text-align: center;
+        margin-bottom: 2rem;
+        border-bottom: 3px solid #0070CC;
+        padding-bottom: 1rem;
     }
     
     /* Chart container */
@@ -82,16 +58,6 @@ st.markdown("""
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         border: 1px solid #e1e5e9;
-    }
-    
-    /* Filter container */
-    .filter-container {
-        background-color: white;
-        border: 2px solid #0070CC;
-        border-radius: 10px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
     
     /* Selectbox styling */
@@ -166,18 +132,6 @@ st.markdown("""
         background-color: #f0f0f0 !important;
     }
     
-    /* Date input styling */
-    .stDateInput > div > div > div {
-        border: 2px solid #e1e5e9 !important;
-        border-radius: 5px !important;
-        background-color: white !important;
-    }
-    
-    .stDateInput > div > div > div:focus-within {
-        border-color: #0070CC !important;
-        box-shadow: 0 0 0 1px #0070CC !important;
-    }
-    
     /* Force all dropdown menus to be white */
     div[data-baseweb="popover"] {
         background-color: white !important;
@@ -236,26 +190,6 @@ st.markdown("""
         box-shadow: 0 4px 12px rgba(0, 112, 204, 0.3);
     }
     
-    /* Clear button styling */
-    .clear-button > button {
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 0.5rem 2rem;
-        font-weight: 600;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        width: 100%;
-    }
-    
-    .clear-button > button:hover {
-        background-color: #c82333;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
-    }
-    
     /* Metrics styling */
     .metric-container {
         background-color: white;
@@ -298,31 +232,19 @@ st.markdown("""
     .stMultiSelect label {
         color: #0070CC !important;
     }
-    
-    /* Fix date input text */
-    .stDateInput label {
-        color: #0070CC !important;
-    }
 </style>
 """, unsafe_allow_html=True)
 
-# Logo Section
+# Logo and Title
 st.markdown('''
-<div class="logo-container">
+<div style="text-align: center; margin-bottom: 2rem;">
     <img src="https://raw.githubusercontent.com/vijayjadhav01/commodity-dashboard/main/Logo.png" 
-         style="height: 50px;" alt="IndiaSpend Logo">
+         style="height: 50px; margin-bottom: 1rem;" alt="IndiaSpend Logo">
+    <h1 style="color: #0070CC; font-size: 2.5rem; font-weight: 700; margin: 0; border-bottom: 3px solid #0070CC; padding-bottom: 1rem;">
+        Commodity Price Dashboard
+    </h1>
 </div>
 ''', unsafe_allow_html=True)
-
-# Title Section
-st.markdown('''
-<div class="title-container">
-    <h1 class="main-title">Commodity Price Dashboard</h1>
-</div>
-''', unsafe_allow_html=True)
-
-# Separator line
-st.markdown('<div class="separator"></div>', unsafe_allow_html=True)
 
 # Configuration - Google Sheets URL (Updated with public access)
 GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/18LVYFWEGfgLNqlo_mY5A70cSmXQBXjd8Lry0ivj2AO8/edit?usp=sharing"
@@ -358,44 +280,34 @@ def load_data_from_google_sheets(sheet_url):
         st.info("💡 Make sure your Google Sheet is shared publicly (Anyone with the link can view)")
         return None
 
-# Initialize session state for filters
-if 'clear_filters' not in st.session_state:
-    st.session_state.clear_filters = False
-
 # Load the data from Google Sheets
 data = load_data_from_google_sheets(GOOGLE_SHEET_URL)
 
 if data is not None:
-    # Get date range from data
-    min_date = data['Date'].min().date()
-    max_date = data['Date'].max().date()
-    
-    # Filters section in a container
-    st.markdown('<div class="filter-container">', unsafe_allow_html=True)
+    # Filters section (no container box)
     st.markdown("##### 🔍 Filters")
     
-    # Create 2x3 grid layout for filters as per your drawing
-    # First row: Group filter, Commodity filter, Search button
+    # Create horizontal layout for filters
     col1, col2, col3 = st.columns([2, 3, 1])
     
     with col1:
-        st.markdown('<p class="filter-label">Group Filter</p>', unsafe_allow_html=True)
+        st.markdown('<p class="filter-label">Select Group</p>', unsafe_allow_html=True)
         groups = [''] + sorted(data['Group'].unique().tolist())
         selected_group = st.selectbox(
             "Group",
             groups,
-            key="group_select" if not st.session_state.clear_filters else "group_select_cleared",
+            key="group_select",
             label_visibility="collapsed"
         )
     
     with col2:
-        st.markdown('<p class="filter-label">Commodity Filter</p>', unsafe_allow_html=True)
+        st.markdown('<p class="filter-label">Select Commodities</p>', unsafe_allow_html=True)
         if selected_group:
             available_commodities = sorted(data[data['Group'] == selected_group]['Commodity'].unique())
             selected_commodities = st.multiselect(
                 "Commodities",
                 available_commodities,
-                key="commodity_select" if not st.session_state.clear_filters else "commodity_select_cleared",
+                key="commodity_select",
                 label_visibility="collapsed"
             )
         else:
@@ -404,68 +316,26 @@ if data is not None:
                 "Commodities",
                 [],
                 placeholder="Please select a group first",
-                key="commodity_select_disabled" if not st.session_state.clear_filters else "commodity_select_disabled_cleared",
+                key="commodity_select_disabled",
                 label_visibility="collapsed"
             )
     
     with col3:
-        st.markdown('<p class="filter-label">Search Button</p>', unsafe_allow_html=True)
+        st.markdown('<p class="filter-label">Apply Filters</p>', unsafe_allow_html=True)
         submit_button = st.button("Search", key="submit_btn")
-    
-    # Second row: Date 1, Date 2, Clear button
-    col4, col5, col6 = st.columns([2, 2, 1])
-    
-    with col4:
-        st.markdown('<p class="filter-label">Date 1 (From)</p>', unsafe_allow_html=True)
-        date_from = st.date_input(
-            "From Date",
-            value=min_date,
-            min_value=min_date,
-            max_value=max_date,
-            key="date_from" if not st.session_state.clear_filters else "date_from_cleared",
-            label_visibility="collapsed"
-        )
-    
-    with col5:
-        st.markdown('<p class="filter-label">Date 2 (To)</p>', unsafe_allow_html=True)
-        date_to = st.date_input(
-            "To Date",
-            value=max_date,
-            min_value=min_date,
-            max_value=max_date,
-            key="date_to" if not st.session_state.clear_filters else "date_to_cleared",
-            label_visibility="collapsed"
-        )
-    
-    with col6:
-        st.markdown('<p class="filter-label">Clear Button</p>', unsafe_allow_html=True)
-        # Custom styling for clear button
-        st.markdown('<div class="clear-button">', unsafe_allow_html=True)
-        clear_button = st.button("Clear", key="clear_btn")
-        st.markdown('</div>', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Handle clear button
-    if clear_button:
-        st.session_state.clear_filters = not st.session_state.clear_filters
-        st.rerun()
     
     # Show chart only when button is clicked and selections are made
     if submit_button and selected_group and selected_commodities:
-        # Filter data by date range as well
+        # Filter data
         filtered_data = data[
             (data['Group'] == selected_group) & 
-            (data['Commodity'].isin(selected_commodities)) &
-            (data['Date'].dt.date >= date_from) &
-            (data['Date'].dt.date <= date_to)
+            (data['Commodity'].isin(selected_commodities))
         ]
         
         if not filtered_data.empty:
             # Chart section
             st.markdown('<div class="chart-container">', unsafe_allow_html=True)
             st.markdown(f"### 📈 Retail Price Trends - {selected_group}")
-            st.markdown(f"**Date Range:** {date_from.strftime('%d %b %Y')} to {date_to.strftime('%d %b %Y')}")
             
             # Create the plot
             fig = go.Figure()
@@ -545,7 +415,7 @@ if data is not None:
                 )
         
         else:
-            st.warning("⚠️ No data available for the selected filters and date range.")
+            st.warning("⚠️ No data available for the selected filters.")
     
     elif submit_button:
         if not selected_group:
@@ -557,8 +427,8 @@ if data is not None:
         # Show placeholder when no filters applied
         st.markdown('''
         <div class="chart-container" style="text-align: center; padding: 4rem 2rem;">
-            <h3 style="color: #0070CC;">Chart will appear here</h3>
-            <p style="color: #666; font-size: 1.1rem;">Select filters and click "Search" to view price trends</p>
+            <h3 style="color: #0070CC;">Select filters and click "Search" to view price trends</h3>
+            <p style="color: #666; font-size: 1.1rem;">Choose a commodity group and one or more commodities to get started</p>
         </div>
         ''', unsafe_allow_html=True)
 
