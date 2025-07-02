@@ -15,6 +15,22 @@ st.set_page_config(
 # Custom CSS for styling
 st.markdown("""
 <style>
+    /* Force light theme */
+    .stApp {
+        background-color: #ffffff !important;
+    }
+    
+    /* Main content area */
+    .main .block-container {
+        background-color: #ffffff !important;
+        padding-top: 2rem !important;
+    }
+    
+    /* Sidebar (if any) */
+    .css-1d391kg {
+        background-color: #f8f9fa !important;
+    }
+    
     /* Main theme color */
     :root {
         --primary-color: #0070CC;
@@ -24,11 +40,6 @@ st.markdown("""
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
-    
-    /* Main container styling */
-    .main > div {
-        padding-top: 2rem;
-    }
     
     /* Title styling */
     .main-title {
@@ -64,6 +75,7 @@ st.markdown("""
     .stSelectbox > div > div {
         border: 2px solid #e1e5e9;
         border-radius: 5px;
+        background-color: white !important;
     }
     
     .stSelectbox > div > div:focus-within {
@@ -75,6 +87,7 @@ st.markdown("""
     .stMultiSelect > div > div {
         border: 2px solid #e1e5e9;
         border-radius: 5px;
+        background-color: white !important;
     }
     
     .stMultiSelect > div > div:focus-within {
@@ -128,6 +141,21 @@ st.markdown("""
         padding: 1rem;
         margin: 1rem 0;
         color: #333;
+    }
+    
+    /* Force text colors */
+    .stMarkdown, .stText, p, div, span {
+        color: #333 !important;
+    }
+    
+    /* Fix selectbox text */
+    .stSelectbox label {
+        color: #0070CC !important;
+    }
+    
+    /* Fix multiselect text */
+    .stMultiSelect label {
+        color: #0070CC !important;
     }
 </style>
 """, unsafe_allow_html=True)
