@@ -322,7 +322,7 @@ if data is not None:
     
     with col3:
         st.markdown('<p class="filter-label">Apply Filters</p>', unsafe_allow_html=True)
-        submit_button = st.button("📊 Show Chart", key="submit_btn")
+        submit_button = st.button("Search", key="submit_btn")
     
     # Show chart only when button is clicked and selections are made
     if submit_button and selected_group and selected_commodities:
