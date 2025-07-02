@@ -241,7 +241,7 @@ st.markdown('''
     <img src="https://raw.githubusercontent.com/yourusername/your-repo-name/main/Logo.png" 
          style="height: 80px; margin-bottom: 1rem;" alt="IndiaSpend Logo">
     <h1 style="color: #0070CC; font-size: 2.5rem; font-weight: 700; margin: 0; border-bottom: 3px solid #0070CC; padding-bottom: 1rem;">
-        📊 Commodity Price Dashboard
+        Commodity Price Dashboard
     </h1>
 </div>
 ''', unsafe_allow_html=True)
@@ -335,7 +335,7 @@ if data is not None:
         if not filtered_data.empty:
             # Chart section
             st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-            st.markdown(f"### 📈 Price Trends - {selected_group}")
+            st.markdown(f"### 📈 Retail Price Trends - {selected_group}")
             
             # Create the plot
             fig = go.Figure()
@@ -356,7 +356,7 @@ if data is not None:
                     marker=dict(size=4),
                     hovertemplate=f'<b>{commodity}</b><br>' +
                                  'Date: %{x}<br>' +
-                                 'Price: ₹%{y:.2f}<br>' +
+                                 'Retail Price: ₹%{y:.2f}/kg<br>' +
                                  '<extra></extra>'
                 ))
             
@@ -364,7 +364,7 @@ if data is not None:
             fig.update_layout(
                 title=None,
                 xaxis_title="Date",
-                yaxis_title="Price (₹)",
+                yaxis_title="Retail Price (₹/kg)",
                 hovermode='x unified',
                 plot_bgcolor='white',
                 paper_bgcolor='white',
