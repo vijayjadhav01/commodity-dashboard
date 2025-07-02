@@ -268,25 +268,15 @@ st.markdown("""
         color: #0070CC !important;
     }
     
-    /* Custom calendar dropdown styling */
+    /* Simple calendar dropdown styling */
     .stDateInput div[data-baseweb="popover"] {
         background-color: white !important;
-        border: 2px solid #0070CC !important;
-        border-radius: 8px !important;
-        box-shadow: 0 8px 24px rgba(0, 112, 204, 0.15) !important;
+        border: 1px solid #e1e5e9 !important;
+        border-radius: 5px !important;
     }
     
     .stDateInput div[data-baseweb="calendar"] {
         background-color: white !important;
-        padding: 1rem !important;
-    }
-    
-    /* Calendar header styling */
-    .stDateInput div[data-baseweb="calendar"] div[data-baseweb="calendar-header"] {
-        background-color: #f8f9fa !important;
-        border-radius: 6px !important;
-        padding: 0.5rem !important;
-        margin-bottom: 1rem !important;
     }
     
     /* Calendar navigation buttons */
@@ -294,65 +284,27 @@ st.markdown("""
         background-color: #0070CC !important;
         color: white !important;
         border: none !important;
-        border-radius: 4px !important;
-        padding: 0.25rem 0.5rem !important;
-        font-weight: 600 !important;
+        border-radius: 3px !important;
     }
     
     .stDateInput div[data-baseweb="calendar"] button:hover {
         background-color: #005aa3 !important;
     }
     
-    /* Month/year dropdowns */
-    .stDateInput div[data-baseweb="calendar"] select {
-        background-color: white !important;
-        color: #0070CC !important;
-        border: 1px solid #0070CC !important;
-        border-radius: 4px !important;
-        padding: 0.25rem !important;
-        font-weight: 600 !important;
-    }
-    
-    /* Week day headers */
-    .stDateInput div[data-baseweb="calendar"] thead th {
-        background-color: #0070CC !important;
-        color: white !important;
-        font-weight: 700 !important;
-        padding: 0.5rem !important;
-        text-align: center !important;
-        border-radius: 4px !important;
-    }
-    
     /* Individual date cells */
     .stDateInput div[data-baseweb="calendar"] div[role="button"] {
         background-color: white !important;
         color: #333 !important;
-        border: 1px solid #e1e5e9 !important;
-        border-radius: 4px !important;
-        margin: 1px !important;
-        font-weight: 500 !important;
     }
     
     .stDateInput div[data-baseweb="calendar"] div[role="button"]:hover {
-        background-color: #e3f2fd !important;
-        border-color: #0070CC !important;
-        color: #0070CC !important;
+        background-color: #f0f0f0 !important;
     }
     
     /* Selected date */
     .stDateInput div[data-baseweb="calendar"] div[aria-selected="true"] {
         background-color: #0070CC !important;
         color: white !important;
-        border-color: #0070CC !important;
-        font-weight: 700 !important;
-    }
-    
-    /* Today's date */
-    .stDateInput div[data-baseweb="calendar"] div[data-date*="today"] {
-        background-color: #fff3cd !important;
-        border-color: #ffc107 !important;
-        color: #856404 !important;
-        font-weight: 600 !important;
     }
 </style>
 """, unsafe_allow_html=True)
