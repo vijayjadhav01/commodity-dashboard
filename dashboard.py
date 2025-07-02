@@ -316,8 +316,11 @@ if data is not None:
         filtered_data = data[(data['Group'] == selected_group) & (data['Commodity'].isin(selected_commodities))]
         
         if not filtered_data.empty:
-            st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-            st.markdown(f"### 📈 Retail Price Trends - {selected_group}")
+            st.markdown(f'''
+            <div class="chart-container">
+                <h3 style="color: #0070CC; margin-top: 0;">📈 Retail Price Trends - {selected_group}</h3>
+            </div>
+            ''', unsafe_allow_html=True)
             
             # Create plot
             fig = go.Figure()
@@ -349,7 +352,6 @@ if data is not None:
             )
             
             st.plotly_chart(fig, use_container_width=True)
-            st.markdown('</div>', unsafe_allow_html=True)
         else:
             st.warning("⚠️ No data available for the selected filters.")
     
