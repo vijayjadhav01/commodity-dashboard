@@ -30,6 +30,14 @@ st.markdown("""
         border: 1px solid #e1e5e9;
     }
     
+    .source-citation {
+        text-align: right;
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.5rem;
+        font-style: italic;
+    }
+    
     .stSelectbox > div > div, .stMultiSelect > div > div, .stDateInput > div > div {
         border: 2px solid #e1e5e9 !important;
         border-radius: 5px !important;
@@ -271,6 +279,14 @@ if data is not None:
             }
             
             st.plotly_chart(fig, use_container_width=True, config=config)
+            
+            # Add source citation below the chart
+            st.markdown('''
+            <div class="source-citation">
+                Source: Department of Consumer Affairs
+            </div>
+            ''', unsafe_allow_html=True)
+            
         else:
             st.warning("No data available for the selected filters.")
     
