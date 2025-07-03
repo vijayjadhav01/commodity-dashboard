@@ -280,13 +280,6 @@ if data is not None:
             
             st.plotly_chart(fig, use_container_width=True, config=config)
             
-            # Add source citation below the chart
-            st.markdown('''
-            <div class="source-citation">
-                Source: Department of Consumer Affairs
-            </div>
-            ''', unsafe_allow_html=True)
-            
         else:
             st.warning("No data available for the selected filters.")
     
@@ -319,5 +312,8 @@ with col2:
 st.markdown('''
 <div style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem;">
     <p>If today's data is missing, try refreshing</p>
+    <div class="source-citation" style="margin-top: 1rem;">
+        Source: Department of Consumer Affairs
+    </div>
 </div>
-''', unsafe_allow_html=True)
+''')
