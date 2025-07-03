@@ -315,8 +315,11 @@ st.markdown('''
 </div>
 ''', unsafe_allow_html=True)
 
-st.markdown('''
-<div style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem; font-style: italic;">
-    Source: Department of Consumer Affairs
-</div>
-''', unsafe_allow_html=True)
+# Add source citation with Streamlit text
+st.markdown("---")
+st.markdown(
+    "<div style='text-align: center; color: #666; font-size: 0.9rem; font-style: italic; padding: 1rem;'>"
+    "Source: Department of Consumer Affairs"
+    "</div>", 
+    unsafe_allow_html=True
+)
