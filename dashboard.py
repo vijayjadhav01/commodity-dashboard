@@ -312,6 +312,7 @@ with col2:
 st.markdown('''
 <div style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem;">
     <p>If today's data is missing, try refreshing</p>
+    <p style="margin-top: 1rem; font-weight: bold; color: #333;">Source: Department of Consumer Affairs</p>
 </div>
 ''', unsafe_allow_html=True)
 
