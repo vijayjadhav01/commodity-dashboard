@@ -31,11 +31,11 @@ st.markdown("""
     }
     
     .source-citation {
-        text-align: right;
-        font-size: 0.85rem;
+        text-align: center;
+        font-size: 0.9rem;
         color: #666;
-        margin-top: 0.5rem;
-        font-style: italic;
+        margin-top: 1rem;
+        font-weight: bold;
     }
     
     .stSelectbox > div > div, .stMultiSelect > div > div, .stDateInput > div > div {
@@ -309,12 +309,15 @@ with col2:
         load_data.clear()
         st.rerun()
 
-# Add source citation prominently
-st.markdown("")
-st.markdown("### Source: Department of Consumer Affairs")
-
 st.markdown('''
 <div style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem;">
     <p>If today's data is missing, try refreshing</p>
+</div>
+''', unsafe_allow_html=True)
+
+# Source citation at the bottom
+st.markdown('''
+<div class="source-citation">
+    Source: Department of Consumer Affairs
 </div>
 ''', unsafe_allow_html=True)
